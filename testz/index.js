@@ -1,7 +1,6 @@
 const Promise = require('bluebird')
 const fs = require('fs')
 
-// async read file data into mem
 const readProductData = (files) => {
   return Promise.map(files, function(fileName) {
     return JSON.parse(fs.readFileSync(fileName, 'utf8'))
