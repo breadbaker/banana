@@ -1,0 +1,19 @@
+{
+  "name": "product_lookup",
+  "version": "1.0.0",
+  "description": "tool to look up product by ingredients",
+  "main": "index.js",
+  "scripts": {
+    "banana": "node index.js Organic Banana",
+    "lookup": "node index "
+  },
+  "author": "breadbaker",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "fs": "0.0.1-security"
+  },
+  "engines": {
+    "node" : ">=10.0.0"
+  } 
+}
