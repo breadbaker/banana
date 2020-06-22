@@ -1,5 +1,5 @@
 {
-  "name": "product_lookup",
+  "name": "banana",
   "version": "1.0.0",
   "description": "tool to look up product by ingredients",
   "main": "index.js",
