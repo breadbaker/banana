@@ -1,0 +1,40 @@
+{
+  "name": "banana",
+  "version": "1.0.0",
+  "description": "tool to look up product by ingredients",
+  "main": "index.js",
+  "scripts": {
+    "banana": "node index.js Organic Banana",
+    "lookup": "node index ",
+    "postinstall": "link-module-alias",
+    "start": "nodemon index.js",
+    "debug": "nodemon --inspect index.js"
+  },
+  "_moduleAliases": {
+    "@components": "./components/index.js",
+    "@reducers": "./reducers/index.js",
+    "@containers": "./containers/index.js",
+    "@util": "./util/index.js"
+  },
+  "author": "breadbaker",
+  "license": "ISC",
+  "dependencies": {
+    "app-module-path": "^2.2.0",
+    "bluebird": "^3.7.2",
+    "classnames": "^2.1.2",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "link-module-alias": "^1.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "nodemonConfig": {
+    "ignore": ["test/*", "docs/*"],
+    "delay": "2500"
+  }
+}
