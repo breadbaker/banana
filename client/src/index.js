@@ -4,8 +4,11 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import App from 'containers/App'
 import configureStore from './store/configureStore'
+import Actions from 'actions'
 
 const store = configureStore()
+//Dispatch the fetchPosts() before our root component renders
+store.dispatch(Actions.loadFlights())
 
 render(
   <Provider store={store}>

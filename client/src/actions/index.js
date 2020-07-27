@@ -2,16 +2,40 @@ import * as types from 'constants'
 import { createActions } from 'redux-actions'
 import axios from 'axios'
 
-const searchProducts = (ingredient) => (dispatch, getState) => {
-  axios.get(`http://localhost:5000/search?ingredient=${ingredient}`)
+const saveFlight = flight => (dispatch, getState) => {
+  axios.post(`http://localhost:3000/flight`,
+    flight)
     .then(function (response) {
       dispatch({
         products: response.data,
-        type: types.PRODUCTS_LIST
+        type: types.FLIGHTS_ADD
       })
     })
 }
 
+
+const loadFlights = () => (dispatch, getState) => {
+  axios.get(`http://localhost:3000/flights`)
+    .then(function (response) {
+      dispatch({
+        flights: response.data,
+        type: types.FLIGHTS_LIST
+      })
+    })
+}
+
+
+// const searchProducts = (ingredient) => (dispatch, getState) => {
+//   axios.get(`http://localhost:3000/search?ingredient=${ingredient}`)
+//     .then(function (response) {
+//       dispatch({
+//         products: response.data,
+//         type: types.PRODUCTS_LIST
+//       })
+//     })
+// }
+
 export default {
-  searchProducts
+  saveFlight,
+  loadFlights
 }

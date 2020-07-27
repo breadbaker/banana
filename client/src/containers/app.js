@@ -3,18 +3,32 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
 import { useSelector, useDispatch } from "react-redux";
-import ProductList from 'components/productList'
-import SearchForm from 'components/searchForm'
+import NewFlight from 'components/newFlight'
+import Flights from 'components/flights'
+import { css } from 'emotion'
 
-function App({ actions, products }) {
+function App({ actions, flights }) {
   // const { todos, actions } = this.props
   const counter = useSelector(state => state);
   const dispatch = useDispatch();
+  // const flights = useSelector()
 
   return (
-    <div>
-      <SearchForm searchProducts={actions.searchProducts} />
-      <ProductList products={products}/>
+    <div
+      className={css`
+        padding: 12px;
+        background-color: #e4e4e4;
+        font-size: 14px;
+        font-family: helvetica;
+        font-weight: bold;
+        border-radius: 4px;
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+    `}
+    >
+      <Flights flights={flights} />
+      <NewFlight saveFlight={actions.saveFlight} />
     </div>
   );
 }
@@ -26,7 +40,7 @@ function App({ actions, products }) {
 
 function mapStateToProps(state) {
   return {
-    products: state.products
+    flights: state.flights
   }
 }
 
