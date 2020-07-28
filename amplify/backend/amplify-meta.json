@@ -1,0 +1,15 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-logflight-dev-124246-authRole",
+            "UnauthRoleArn": "arn:aws:iam::100844542342:role/amplify-logflight-dev-124246-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::100844542342:role/amplify-logflight-dev-124246-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-logflight-dev-124246-deployment",
+            "UnauthRoleName": "amplify-logflight-dev-124246-unauthRole",
+            "StackName": "amplify-logflight-dev-124246",
+            "StackId": "arn:aws:cloudformation:us-east-1:100844542342:stack/amplify-logflight-dev-124246/5f578b50-d0f1-11ea-86f3-0a99e59b1983",
+            "AmplifyAppId": "d3bylvxfduw0wf"
+        }
+    }
+}
