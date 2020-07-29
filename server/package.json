@@ -11,10 +11,8 @@
     "debug": "nodemon --inspect index.js"
   },
   "_moduleAliases": {
-    "@components": "./components/index.js",
-    "@reducers": "./reducers/index.js",
-    "@containers": "./containers/index.js",
-    "@util": "./util/index.js",
+    "@util": "./util/",
+    "@handlers": "./handlers/index.js",
     "@db": "./db.js"
   },
   "author": "breadbaker",
@@ -28,15 +26,11 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "link-module-alias": "^1.2.0",
-    "pg": "^8.3.0",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^6.3.3",
     "try-require": "^1.2.1"
   },
   "devDependencies": {
     "mocha": "^2.2.5",
-    "nodemon": "^2.0.4",
-    "sequelize-cli": "^6.2.0"
+    "nodemon": "^2.0.4"
   },
   "engines": {
     "node": ">=10.0.0"
