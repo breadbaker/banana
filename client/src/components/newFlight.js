@@ -19,7 +19,7 @@ function NewFlight({ actions }) {
 
   const submit = function (e) {
     e.preventDefault()
-    actions.saveFlight.saveFlight({
+    actions.saveFlight({
       signature,
       aircraft,
       date,
