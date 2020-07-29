@@ -2,11 +2,13 @@ import { css, cx } from 'emotion'
 import React, { Component, PropTypes } from 'react'
 import Display from 'components/display'
 import DisplaySignature from 'components/displaySignature'
-
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import Actions from 'actions'
 const color = 'white'
 
 
-function Flights({flights}) {
+function Flights({ flights }) {
   return (
     <div>
       { flights.flights.map(flight => {
@@ -58,5 +60,14 @@ function Flights({flights}) {
   )
 }
 
-export default Flights
 
+function mapStateToProps(state) {
+  return {
+    flights: state.flights
+  }
+}
+
+
+export default connect(
+  mapStateToProps
+)(Flights)

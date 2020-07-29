@@ -2,8 +2,10 @@ import React, { Component, PropTypes, useRef, useState } from 'react'
 import Input from 'components/input'
 import Signature from 'components/signature'
 import { css } from 'emotion'
-
-function NewFlight(saveFlight) {
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import Actions from 'actions'
+function NewFlight({ actions }) {
 
   const [signature, setSignature] = useState('');
   const [aircraft, setAircraft] = useState('')
@@ -17,7 +19,7 @@ function NewFlight(saveFlight) {
 
   const submit = function (e) {
     e.preventDefault()
-    saveFlight.saveFlight({
+    actions.saveFlight.saveFlight({
       signature,
       aircraft,
       date,
@@ -96,4 +98,13 @@ function NewFlight(saveFlight) {
   );
 }
 
-export default NewFlight
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewFlight)

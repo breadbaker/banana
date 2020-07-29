@@ -1,18 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
-import { useSelector, useDispatch } from "react-redux";
-import NewFlight from 'components/newFlight'
-import Flights from 'components/flights'
+
 import { css } from 'emotion'
+import Header from 'components/header'
 
-function App({ actions, flights }) {
-  // const { todos, actions } = this.props
-  const counter = useSelector(state => state);
-  const dispatch = useDispatch();
-  // const flights = useSelector()
-
+function App({children}) {
   return (
     <div
       className={css`
@@ -27,30 +20,10 @@ function App({ actions, flights }) {
         margin: 0 auto;
     `}
     >
-      <Flights flights={flights} />
-      <NewFlight saveFlight={actions.saveFlight} />
+      <Header />
+      {children}
     </div>
   );
 }
 
-// App.propTypes = {
-//   todos: PropTypes.array.isRequired,
-//   actions: PropTypes.object.isRequired
-// }
-
-function mapStateToProps(state) {
-  return {
-    flights: state.flights
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App

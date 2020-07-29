@@ -27,6 +27,7 @@ function Input({setSignature, signature}) {
                         canvasWidth={480}
                         canvasHeight={160}
                         brushRadius={2}
+                        lazyRadius={3}
                         ref={canvas} 
                         onChange={saveSignature} />
 
