@@ -10,7 +10,7 @@ module.exports = app => {
     res.header("Access-Control-Allow-Headers", "Origin, authorization, X-Requested-With, Content-Type, Accept, authtoken");
     next();
   });
-  require('./controller')(app);
+  require('./controller/controller')(app);
 
   return app
 }

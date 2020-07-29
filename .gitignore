@@ -3,3 +3,4 @@ client/dist/*
 server/node_modules/*
 .DS_Store
 client/.DS_Store
+server/tmp/*
