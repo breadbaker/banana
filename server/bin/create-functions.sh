@@ -18,6 +18,12 @@ aws lambda  create-function  \
 rm upload.zip 
 zip -r upload.zip .
 aws lambda  update-function-code  \
-    --function-name create-flight \
+    --function-name get-flights \
     --zip-file fileb://upload.zip
 
+
+
+
+aws apigateway update-gateway-response --rest-api-id "b9bovtjtgj" --response-type "DEFAULT_4XX" --patch-operations op="add",path="/responseParameters/gatewayresponse.header.Access-Control-Allow-Origin",value='"'"'*'"'"'
+
+create-deployment --rest-api-id b9bovtjtgj --stage-name prod

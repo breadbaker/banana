@@ -8,7 +8,10 @@ const getDomain = () => {
 }
 const saveFlight = flight => (dispatch, getState) => {
   axios.post(`${getDomain()}/flight`,
-    flight)
+    {
+      key: 'testprod',
+      data: flight
+    })
     .then(function (response) {
       dispatch({
         products: response.data,
@@ -19,7 +22,10 @@ const saveFlight = flight => (dispatch, getState) => {
 
 
 const loadFlights = () => (dispatch, getState) => {
-  axios.get(`${getDomain()}/flights`)
+  axios.post(`${getDomain()}/flights`,
+    {
+      key: 'testprod'
+    })
     .then(function (response) {
       dispatch({
         flights: response.data,
