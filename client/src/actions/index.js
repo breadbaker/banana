@@ -2,8 +2,12 @@ import * as types from 'constants'
 import { createActions } from 'redux-actions'
 import axios from 'axios'
 
+
+const getDomain = () => {
+  return window.location.host === 'localhost' ? 'http://localhost:3000' : 'https://api.flightlogbox.com'
+}
 const saveFlight = flight => (dispatch, getState) => {
-  axios.post(`http://localhost:3000/flight`,
+  axios.post(`${getDomain()}/flight`,
     flight)
     .then(function (response) {
       dispatch({
@@ -15,7 +19,7 @@ const saveFlight = flight => (dispatch, getState) => {
 
 
 const loadFlights = () => (dispatch, getState) => {
-  axios.get(`http://localhost:3000/flights`)
+  axios.get(`${getDomain()}/flights`)
     .then(function (response) {
       dispatch({
         flights: response.data,

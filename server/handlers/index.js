@@ -1,7 +1,7 @@
-const { handler: storeFlight } = require('./store-flight')
-const { handler: retrieveFlights }= require('./retrieve-flights')
+const storeFlight = require('./store-flight')
+const retrieveFlights = require('./retrieve-flights')
 
-exports = {
+module.exports = {
     storeFlight,
     retrieveFlights
 }

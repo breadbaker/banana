@@ -1,7 +1,7 @@
 const upload = require('@util/upload')
 const download = require('@util/download')
 
-exports.handler = async (event) => {
+module.exports = async (event) => {
   const {
     key,
     data

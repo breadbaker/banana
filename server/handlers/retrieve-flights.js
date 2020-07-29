@@ -1,6 +1,6 @@
 const download = require('@util/download')
 
-exports.handler = async (event) => {
+module.exports = async (event) => {
   const {
     key
   } = event
