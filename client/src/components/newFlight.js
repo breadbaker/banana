@@ -16,6 +16,7 @@ function NewFlight({ actions }) {
   const [takeoffs, setTakeoffs] = useState(0)
   const [landings, setLandings] = useState(0)
   const [remarks, setRemarks] = useState('')
+  const [instructor, setInstructor] = useState('')
 
   const submit = function (e) {
     e.preventDefault()
@@ -72,6 +73,10 @@ function NewFlight({ actions }) {
         label='Remarks'
         value={remarks}
         update={setRemarks} />
+      <Input
+        label='Instructor Name'
+        value={instructor}
+        update={setInstructor} />
       <Signature
         signature={signature}
         setSignature={setSignature} />

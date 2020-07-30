@@ -8,16 +8,24 @@ import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
-function Header({ actions }) {
+import { css } from 'emotion'
+
+function Header({ actions, links }) {
 
   return (
     <header>
-        Links:
-        {' '}
-        <Link to="/newFlight">New Flight</Link>
-        {' '}
-        <Link to="/oldFlights">Past Flights</Link>
-        {' '}
+        {links.map((link, idx) => {
+          return (
+            <div
+              key={idx}
+              className={css`
+                display: inline-block;
+                margin: 5px;
+              `}>
+              <Link key={idx} to={link.link}>{link.label}</Link>
+            </div>
+          )
+        })}
     </header>
   );
 }

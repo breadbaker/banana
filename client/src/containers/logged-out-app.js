@@ -5,7 +5,7 @@ import Actions from 'actions'
 import { css } from 'emotion'
 import Header from 'components/header'
 
-function App({children}) {
+function LoggedOutApp({children}) {
   return (
     <div
       className={css`
@@ -22,17 +22,25 @@ function App({children}) {
     >
       <Header links={[
         {
-          label: 'New Flight',
-          link: '/app/newFlight'
+          label: 'Login',
+          link: '/login'
         },
         {
-          label: 'Past Flights',
-          link: '/app/flights'
+          label: 'Signup',
+          link: '/signup'
+        },
+        {
+          label: 'Forgot',
+          link: '/forgot'
         }
       ]}/>
+      <div>
+        <h1>Flight Log Box</h1>
+        <p>Flight logging tool for students, and with signatures for instructiors</p>
+      </div>
       {children}
     </div>
   );
 }
 
-export default App
+export default LoggedOutApp

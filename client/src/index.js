@@ -3,12 +3,17 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import App from 'containers/App'
+import LoggedOutApp from 'containers/logged-out-app'
 import configureStore from './store/configureStore'
 import Actions from 'actions'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { syncHistoryWithStore, push } from 'react-router-redux'
 import NewFlight from 'components/newFlight'
 import Flights from 'components/flights'
+import Signup from 'components/signup'
+import Login from 'components/login'
+import Forgot from 'components/forgot'
+import Reset from 'components/reset'
 import { css } from 'emotion'
 
 const store = configureStore()
@@ -21,26 +26,21 @@ store.dispatch(Actions.loadFlights())
 
 render(
   <Provider store={store}>
-    <div
-        className={css`
-        padding: 12px;
-        background-color: #e4e4e4;
-        font-size: 14px;
-        font-family: helvetica;
-        font-weight: bold;
-        border-radius: 4px;
-        display: block;
-        max-width: 500px;
-        margin: 0 auto;
-    `}>
-      <Router history={history}>
-        <Route path="/" component={App}>
-          <Route path="/oldflights" component={Flights}/>
-          <Route path="/newFlight" component={NewFlight} />
+    <Router history={history}>
+      <Route path="/app" component={App}>
           <IndexRoute component={NewFlight} />
-        </Route>
-      </Router>
-    </div>
+          <Route path="oldflights" component={Flights}/>
+          <Route path="newFlight" component={NewFlight} />
+      </Route>
+      <Route path="/" component={LoggedOutApp}>
+        <IndexRoute component={Login} />
+        <Route path="/login" component={Login}/>
+        <Route path="/signup" component={Signup}/>
+        <Route path="/reset" component={Reset}/>
+        <Route path="/forgot" component={Forgot}/>
+      </Route>
+
+    </Router>
   </Provider>,
   document.getElementById('root')
 )
