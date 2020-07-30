@@ -12,7 +12,7 @@
   },
   "_moduleAliases": {
     "@util": "./util/index.js",
-    "@handlers": "./handlers/index.js",
+    "@handlers": "./handlers/index.js"
   },
   "author": "breadbaker",
   "license": "ISC",
@@ -26,7 +26,9 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "link-module-alias": "^1.2.0",
-    "try-require": "^1.2.1"
+    "node-fetch": "^2.6.0",
+    "try-require": "^1.2.1",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "mocha": "^2.2.5",

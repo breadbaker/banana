@@ -5,7 +5,7 @@ import { push } from 'react-router-redux'
 
 
 const getDomain = () => {
-  return window.location.host === 'localhost' ? 'http://localhost:3000' : 'https://api.flightlogbox.com'
+  return window.location.host.includes('localhost') ? 'http://localhost:3000' : 'https://api.flightlogbox.com'
 }
 const saveFlight = flight => (dispatch, getState) => {
   axios.post(`${getDomain()}/flight`,

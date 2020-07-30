@@ -1,6 +1,7 @@
 import React, { Component, PropTypes, useRef, useState } from 'react'
 import Input from 'components/input'
 import Signature from 'components/signature'
+import Submit from 'components/submit'
 import { css } from 'emotion'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -80,25 +81,7 @@ function NewFlight({ actions }) {
       <Signature
         signature={signature}
         setSignature={setSignature} />
-      <input
-        className={css`
-          background-color: blue;
-          border-radius: 7px;
-          color: white;
-          display: block;
-          max-width: 500px;
-          margin: 0 auto;
-          padding: 20px;
-          padding-top: 5px;
-          padding-bottom: 5px;
-          font-size: 16px;
-          :active {
-            background-color: yellow;
-          };
-      ` }
-        type="submit"
-        value="Save" />
-
+      <Submit />
     </form>
   );
 }

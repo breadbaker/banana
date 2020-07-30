@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Submit from 'components/submit'
 import Input from 'components/input'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -41,6 +42,7 @@ function Signup({ actions }) {
         value={password}
         type="password"
         update={setPassword} />
+      <Submit />
     </form>
   );
 }

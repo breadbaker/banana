@@ -1,5 +1,5 @@
-const upload = require('@util/upload')
-const download = require('@util/download')
+const upload = require('@util')
+const download = require('@util')
 
 module.exports = async (event) => {
   console.log('event')

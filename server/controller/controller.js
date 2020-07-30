@@ -2,13 +2,12 @@ const asyncWrapper = require('middleware/async-wrapper')
 
 const {
   storeFlight,
-  retrieveFlights
+  retrieveFlights,
+  signup,
+  login,
+  reset,
+  forgot
 } = require('@handlers')
-
-const signup = require('@handlers/auth/signup')
-const login = require('@handlers/auth/login')
-const reset = require('@handlers/auth/reset')
-const forgot = require('@handlers/auth/forgot')
 
 module.exports = app => {
   app.post('/flight', asyncWrapper(async(req, res) => {
@@ -27,11 +26,12 @@ module.exports = app => {
   }))
 
   app.post('/signup', asyncWrapper(async(req, res) => {
-    try {
-      respons = await signup(req.body)
-    } catch (err) {
-      return res.status(400).send(err)
-    }
+    // try {
+      const response = await signup(req.body)
+      return res.status(200).send(response)
+    // } catch (err) {
+    //   return res.status(400).send(err)
+    // }
   }))
   
   app.post('/login', asyncWrapper(async(req, res) => {
