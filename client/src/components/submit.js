@@ -1,11 +1,11 @@
 import React from 'react'
 import { css } from 'emotion'
 
-function Submit() {
+function Submit({ label }) {
   return (
     <input
       className={css`
-        background-color: blue;
+        background-color: #141420;
         border-radius: 7px;
         color: white;
         display: block;
@@ -15,12 +15,16 @@ function Submit() {
         padding-top: 5px;
         padding-bottom: 5px;
         font-size: 16px;
+        :hover {
+          color: black;
+          background-color: #b3b3cd;
+        }
         :active {
-          background-color: yellow;
+          background-color: #4f4f64;
         };
       ` }
       type="submit"
-      value="Save" />
+      value={label || 'Save'} />
   )
 }
 

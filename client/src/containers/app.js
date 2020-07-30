@@ -9,7 +9,7 @@ function App({children}) {
   return (
     <div
       className={css`
-        padding: 12px;
+        padding: 20px;
         background-color: #e4e4e4;
         font-size: 14px;
         font-family: helvetica;

@@ -20,7 +20,7 @@ function Input({label, value, update, type = 'text'}) {
         <div
             className={css`
                 display: inline-block;
-                width: 50%;
+                width: ${type=== 'number' ? '25%': '33%'}
             `}
         >
             <label>
@@ -28,7 +28,7 @@ function Input({label, value, update, type = 'text'}) {
                 <div
                     className={css`
                         padding: 12px;
-                        padding-right: 20px;
+                        padding-right: 30px;
                     `}
                 >
                     <input 

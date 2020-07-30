@@ -16,6 +16,8 @@ function NewFlight({ actions }) {
   const [durration, setDurration] = useState(0)
   const [takeoffs, setTakeoffs] = useState(0)
   const [landings, setLandings] = useState(0)
+  const [nightTakeoffs, setNightTakeoffs] = useState(0)
+  const [nightLandings, setNightLandings] = useState(0)
   const [remarks, setRemarks] = useState('')
   const [instructor, setInstructor] = useState('')
 
@@ -30,6 +32,9 @@ function NewFlight({ actions }) {
       durration,
       takeoffs,
       landings,
+      nightTakeoffs,
+      nightLandings,
+      instructor,
       remarks
     })
   }
@@ -47,41 +52,56 @@ function NewFlight({ actions }) {
         value={date}
         type='date'
         update={setDate} />
+      <div>
+        <Input
+          label='Departing Airport'
+          value={departingAirport}
+          update={setDepartingAirport} />
+        <Input
+          label='Arriving Airport'
+          value={arrivalAirport}
+          update={setArrivalAirport} />
+      </div>
+      <div>
+        <Input
+          label='Takeoffs'
+          value={takeoffs}
+          type='number'
+          update={setTakeoffs} />
+        <Input
+          label='Landings'
+          value={landings}
+          type='number'
+          update={setLandings} /> 
       <Input
-        label='Departing Airport'
-        value={departingAirport}
-        update={setDepartingAirport} />
-      <Input
-        label='Arriving Airport'
-        value={arrivalAirport}
-        update={setArrivalAirport} />
-      <Input
-        label='Durration'
-        value={durration}
+        label='Night Takeoffs'
+        value={nightTakeoffs}
         type='number'
-        update={setDurration} />
+        update={setNightTakeoffs} />
       <Input
-        label='Takeoffs'
-        value={takeoffs}
+        label='Night Landings'
+        value={nightLandings}
         type='number'
-        update={setTakeoffs} />
-      <Input
-        label='Landings'
-        value={landings}
-        type='number'
-        update={setLandings} /> 
+        update={setNightLandings} /> 
+      </div>
       <Input
         label='Remarks'
+        type='textarea'
         value={remarks}
         update={setRemarks} />
       <Input
         label='Instructor Name'
         value={instructor}
         update={setInstructor} />
+      <Input
+        label='Durration'
+        value={durration}
+        type='number'
+        update={setDurration} />
       <Signature
         signature={signature}
         setSignature={setSignature} />
-      <Submit />
+      <Submit label="Save Flight" />
     </form>
   );
 }

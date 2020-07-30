@@ -20,7 +20,6 @@ const store = configureStore()
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
-
 //Dispatch the fetchPosts() before our root component renders
 store.dispatch(Actions.loadFlights())
 

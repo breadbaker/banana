@@ -1,4 +1,4 @@
-import { FLIGHTS_LIST, ADD_FLIGHT } from 'constants'
+import { FLIGHTS_LIST, FLIGHTS_ADD } from 'constants'
 
 const initialState = {
   flights: [],
@@ -11,7 +11,7 @@ export default function flights(state = initialState, action) {
         ...state,
         flights: action.flights
       }
-    case ADD_FLIGHT:
+    case FLIGHTS_ADD:
       return {
         ...state,
         flights: state.flights.concat(action.flight)

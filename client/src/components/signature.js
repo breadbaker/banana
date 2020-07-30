@@ -20,6 +20,8 @@ function Input({setSignature, signature}) {
                 <div
                     className={css`
                         padding: 12px;
+                        overflow-x: hidden;
+                        margin-right: 20px;
                     `}
                 >
                     <CanvasDraw
