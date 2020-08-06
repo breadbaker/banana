@@ -5,13 +5,14 @@ const client = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19' });
 const jwkToPem = require('jwk-to-pem');
 const jwt = require('jsonwebtoken');
 const axios = require('axios')
+const renew = require('./renew')
 const genericParams = {
   UserPoolId: process.env.COGNITO_POOL_ID
 }
 
 const validate = async function({
   AccessToken,
-  refreshAccessToken
+  RefreshToken
 }) {
 
   const response = await axios.get(`https://cognito-idp.${process.env.AWS_REGION}.amazonaws.com/${process.env.COGNITO_POOL_ID}/.well-known/jwks.json`)
@@ -29,8 +30,18 @@ const validate = async function({
     pems[key_id] = pem;
   }
   var decodedJwt = jwt.decode(AccessToken, {complete: true});
-  console.log('decodedJwt')
   console.log(decodedJwt)
+  const {
+    payload: {
+      exp
+    }
+  } = decodedJwt
+  if (new Date(exp * 1000) < new Date()) {
+    console.log('token expired')
+  }
+  console.log('decodedJwt')
+  // console.log(decodedJwt)
+  // if ()
   if (!decodedJwt) {
       console.log("Not a valid JWT token");
       // callback(new Error('Not a valid JWT token'));
@@ -44,6 +55,7 @@ const validate = async function({
   jwt.verify(AccessToken, pem, function(err, payload) {
       if(err) {
         console.log(err)
+          if (err)
 
           console.log("Invalid Token.");
           // callback(new Error('Invalid token'));

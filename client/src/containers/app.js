@@ -23,11 +23,11 @@ function App({children}) {
       <Header links={[
         {
           label: 'New Flight',
-          link: '/app/newFlight'
+          link: '/newFlight'
         },
         {
           label: 'Past Flights',
-          link: '/app/flights'
+          link: '/flights'
         }
       ]}/>
       {children}

@@ -7,7 +7,8 @@ const {
   login,
   reset,
   forgot,
-  validate
+  validate,
+  renew,
 } = require('@handlers')
 
 module.exports = app => {
@@ -20,14 +21,19 @@ module.exports = app => {
   }))
 
   app.post('/flights', asyncWrapper(async(req, res) => {
-    const flights = await retrieveFlights({
-      key: req.body.key
-    })
+    const flights = await retrieveFlights(req.body)
     res.status(200).send(flights)
   }))
 
   app.post('/validate', asyncWrapper(async(req,res) => {
     const response = await validate(req.body)
+    console.log('login response')
+    console.log(response)
+    return res.status(200).send(response)
+  }))
+
+  app.post('/renew', asyncWrapper(async(req,res) => {
+    const response = await renew(req.body)
     console.log('login response')
     console.log(response)
     return res.status(200).send(response)
@@ -67,5 +73,9 @@ module.exports = app => {
     } catch (err) {
       return res.status(400).send(err)
     }
+  }))
+
+  app.get('*', asyncWrapper(async(req, res) => {
+    res.status(200).send()
   }))
 }

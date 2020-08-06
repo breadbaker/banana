@@ -15,30 +15,42 @@ import Login from 'components/login'
 import Forgot from 'components/forgot'
 import Reset from 'components/reset'
 import { css } from 'emotion'
+import jwt from 'jsonwebtoken'
 
 const store = configureStore()
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
 //Dispatch the fetchPosts() before our root component renders
+const auth = JSON.parse(localStorage.getItem('auth'))
+if (auth) {
+  console.log(jwt.decode(auth.AccessToken))
+  store.dispatch({
+    ...auth,
+    type: 'SET_AUTH'
+  })
+} else {
+  store.dispatch(push('/welcome/login'))
+}
+
 store.dispatch(Actions.loadFlights())
 // store.dispatch(push('/app'))
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/app" component={App}>
-          <IndexRoute component={NewFlight} />
-          <Route path="flights" component={Flights}/>
-          <Route path="newFlight" component={NewFlight} />
-      </Route>
-      <Route path="/" component={LoggedOutApp}>
+
+      <Route path="/welcome" component={LoggedOutApp}>
         <IndexRoute component={Login} />
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/reset" component={Reset}/>
         <Route path="/forgot" component={Forgot}/>
       </Route>
-
+      <Route path="/" component={App}>
+        <IndexRoute component={NewFlight} />
+        <Route path="flights" component={Flights}/>
+        <Route path="newFlight" component={NewFlight} />
+      </Route>
     </Router>
   </Provider>,
   document.getElementById('root')

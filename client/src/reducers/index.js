@@ -4,13 +4,13 @@ import { routerReducer } from 'react-router-redux'
 import flights from './flights'
 
 const authInitialState = {
-  auth: [],
+  auth: {},
 }
 function auth(state = authInitialState, action) {
   switch (action.type) {
     case 'SET_AUTH':
       return {
-        ...action.payload
+        ...action
       }
     default:
       return state

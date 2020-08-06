@@ -7,6 +7,16 @@ const htmlPlugin = new HtmlWebPackPlugin({
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
+  // devServer: {
+  //   before: function(app, server, compiler) {
+  //     app.get('/app/*', function(req, res) {
+  //       res.sendFile(__dirname + './src/index.html')
+  //     });
+  //     app.get('/login', function(req, res) {
+  //       res.sendFile(__dirname + './src/index.html')
+  //     });
+  //   }
+  // },
   module: {
     rules: [
       {

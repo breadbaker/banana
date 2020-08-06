@@ -23,15 +23,15 @@ function LoggedOutApp({children}) {
       <Header links={[
         {
           label: 'Login',
-          link: '/login'
+          link: '/welcome/login'
         },
         {
           label: 'Signup',
-          link: '/signup'
+          link: '/welcome/signup'
         },
         {
           label: 'Forgot',
-          link: '/forgot'
+          link: '/welcome/forgot'
         }
       ]}/>
       <div>

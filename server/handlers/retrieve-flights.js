@@ -1,4 +1,4 @@
-const download = require('@util')
+const {download} = require('@util')
 
 module.exports = async (event) => {
   const {
