@@ -6,7 +6,8 @@ const {
   signup,
   login,
   reset,
-  forgot
+  forgot,
+  validate
 } = require('@handlers')
 
 module.exports = app => {
@@ -25,9 +26,18 @@ module.exports = app => {
     res.status(200).send(flights)
   }))
 
+  app.post('/validate', asyncWrapper(async(req,res) => {
+    const response = await validate(req.body)
+    console.log('login response')
+    console.log(response)
+    return res.status(200).send(response)
+  }))
+
   app.post('/signup', asyncWrapper(async(req, res) => {
     // try {
       const response = await signup(req.body)
+      console.log('login response')
+      console.log(response)
       return res.status(200).send(response)
     // } catch (err) {
     //   return res.status(400).send(err)
@@ -36,7 +46,8 @@ module.exports = app => {
   
   app.post('/login', asyncWrapper(async(req, res) => {
     try {
-      respons = await login(req.body)
+      response = await login(req.body)
+      return res.status(200).send(response)
     } catch (err) {
       return res.status(400).send(err)
     }

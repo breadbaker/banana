@@ -1,1 +1,1 @@
-aws s3 sync dist s3://logflights --delete
+aws s3 sync dist s3://logflights --delete  --acl public-read

@@ -42,6 +42,7 @@ const signup = data => (dispatch, getState) => {
   axios.post(`${getDomain()}/signup`,
     data)
     .then(function (response) {
+      saveAuth(response.data.AuthenticationResult)
       routeActions.push('/newFlight')
       dispatch({
         flights: response.data,
@@ -50,19 +51,30 @@ const signup = data => (dispatch, getState) => {
     })
 }
 
+const saveAuth = data => (dispatch) => {
+  localStorage.setItem('auth', JSON.stringify(data))
+  dispatch({
+    ...data,
+    type: 'SET_AUTH'
+  })
+}
 
-// const searchProducts = (ingredient) => (dispatch, getState) => {
-//   axios.get(`http://localhost:3000/search?ingredient=${ingredient}`)
-//     .then(function (response) {
-//       dispatch({
-//         products: response.data,
-//         type: types.PRODUCTS_LIST
-//       })
-//     })
-// }
+const login = data => (dispatch, getState) => {
+  axios.post(`${getDomain()}/login`,
+    data)
+    .then(function (response) {
+      saveAuth(response.data.AuthenticationResult)
+      dispatch(push('/newFlight'))
+      dispatch({
+        flights: response.data,
+        type: types.FLIGHTS_LIST
+      })
+    })
+}
 
 export default {
   saveFlight,
   loadFlights,
-  signup
+  signup,
+  login
 }

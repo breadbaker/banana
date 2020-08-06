@@ -4,8 +4,9 @@ AWS.config.update({ region: process.env.AWS_REGION });
 const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 const client = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19' });
 const uuid = require('uuid')
+const login = require('./login')
 const genericParams = {
-  UserPoolId: process.env.COGNITO_POOL_ID
+  UserPoolId: process.env.COGNITO_POOL_ID,
 }
 
 const createUser = function({
@@ -60,7 +61,8 @@ const initiateAuth = function({
 }) {
   const params = {
     ...genericParams,
-    AuthFlow: "ADMIN_NO_SRP_AUTH",
+    AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+    ClientId: process.env.COGNITO_POOL_CLIENT_ID,
     AuthParameters: {
       "USERNAME": email,
       "PASSWORD": tempPassword
@@ -80,12 +82,13 @@ const initiateAuth = function({
 
 const respondAuthChallenge = function({
   email,
-  password
+  password,
+  session
 }) {
   const params = {
-    ...genericParams,
     ChallengeName: 'NEW_PASSWORD_REQUIRED',
-    Session: result['Session'],
+    ClientId: process.env.COGNITO_POOL_CLIENT_ID,
+    Session: session,
     ChallengeResponses: {
         'USERNAME': email,
         'NEW_PASSWORD': password
@@ -104,14 +107,7 @@ const respondAuthChallenge = function({
 }
 
 module.exports = async event => {
-  const {
-    firstName,
-    lastName,
-    email,
-    password
-  } = event
-
-  const tempPassword = `${uuid.v4()}?9`
+  const tempPassword = `${uuid.v4()}?9P`
 
   const user = await createUser({
     ...event,
@@ -123,10 +119,10 @@ module.exports = async event => {
     tempPassword
   })
 
-  const respondAuthChallengeResult = await respondAuthChallenge({
+  await respondAuthChallenge({
     ...event,
     session: authResult['Session']
   })
 
-  return respondAuthChallengeResult
+  return await login(event)
 }

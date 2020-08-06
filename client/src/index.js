@@ -22,13 +22,13 @@ const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
 //Dispatch the fetchPosts() before our root component renders
 store.dispatch(Actions.loadFlights())
-
+// store.dispatch(push('/app'))
 render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/app" component={App}>
           <IndexRoute component={NewFlight} />
-          <Route path="oldflights" component={Flights}/>
+          <Route path="flights" component={Flights}/>
           <Route path="newFlight" component={NewFlight} />
       </Route>
       <Route path="/" component={LoggedOutApp}>
