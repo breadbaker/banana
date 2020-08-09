@@ -15,7 +15,7 @@ const withAuth = {
 const authMethods = Object.keys(withAuth).reduce((memo, key) => {
     const method = async event => {
         await validate(event.headers)
-        return await withAuth[key](event.data)
+        return await withAuth[key](event)
     }
     memo[key] = method
     return memo

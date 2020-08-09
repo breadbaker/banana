@@ -29,13 +29,20 @@ function Input({setSignature, signature}) {
                         canvasWidth={480}
                         canvasHeight={160}
                         brushRadius={2}
-                        lazyRadius={3}
+                        lazyRadius={2}
                         ref={canvas} 
                         onChange={saveSignature} />
 
                 </div>
-
             </label>
+            { setSignature &&
+                <button onClick={() => {
+                    setSignature('')
+                    canvas.current.clear()
+                }}>
+                    Clear
+                </button>
+            }
       </div>
     )
 }

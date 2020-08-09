@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-AWS.config.update({ region: process.env.AWS_REGION });
+AWS.config.update({ region: process.env.AWS_REGION_NAME });
 const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 const client = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19' });
 const genericParams = {
@@ -9,7 +9,6 @@ const genericParams = {
 const renew = function({
   RefreshToken,
 }) {
-  console.log(RefreshToken)
   const params = {
     ...genericParams,
     AuthFlow: "REFRESH_TOKEN_AUTH",
@@ -25,7 +24,6 @@ const renew = function({
         reject(err);
         return;
       }
-      console.log(data)
       resolve(data)
     })
   })

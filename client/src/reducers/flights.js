@@ -14,7 +14,7 @@ export default function flights(state = initialState, action) {
     case FLIGHTS_ADD:
       return {
         ...state,
-        flights: state.flights.concat(action.flight)
+        flights: [action.flight].concat(state.flights)
       }
     default:
       return state

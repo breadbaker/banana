@@ -2,15 +2,17 @@ import React, { Component, PropTypes, useRef, useState } from 'react'
 import Input from 'components/input'
 import Signature from 'components/signature'
 import Submit from 'components/submit'
+import Flights from 'components/flights'
 import { css } from 'emotion'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
-function NewFlight({ actions }) {
+import { Button, DatePicker } from 'antd';
+function NewFlight({ actions, flights }) {
 
   const [signature, setSignature] = useState('');
   const [aircraft, setAircraft] = useState('')
-  const [date, setDate] = useState(null)
+  const [date, setDate] = useState(new Date())
   const [departingAirport, setDepartingAirport] = useState('')
   const [arrivalAirport, setArrivalAirport] = useState('')
   const [durration, setDurration] = useState(0)
@@ -37,72 +39,89 @@ function NewFlight({ actions }) {
       instructor,
       remarks
     })
+    setSignature('')
+    setAircraft('')
+    setDate(new Date())
+    setDepartingAirport('')
+    setArrivalAirport('')
+    setDurration(0)
+    setTakeoffs(0)
+    setLandings(0)
+    setNightLandings(0)
+    setNightTakeoffs(0)
+    setRemarks('')
+    setInstructor('')
   }
 
 
   return (
-    <form onSubmit={submit}>
-      <h1>New Flight</h1>
-      <Input
-        label='Aircraft'
-        value={aircraft}
-        update={setAircraft} />
-      <Input
-        label='Date'
-        value={date}
-        type='date'
-        update={setDate} />
-      <div>
+    <div>
+      <Button type="primary">PRESS ME</Button>
+      <DatePicker placeholder="select date" />
+      <form onSubmit={submit}>
+        <h1>New Flight</h1>
         <Input
-          label='Departing Airport'
-          value={departingAirport}
-          update={setDepartingAirport} />
+          label='Aircraft'
+          value={aircraft}
+          update={setAircraft} />
         <Input
-          label='Arriving Airport'
-          value={arrivalAirport}
-          update={setArrivalAirport} />
-      </div>
-      <div>
+          label='Date'
+          value={date}
+          type='date'
+          update={setDate} />
+        <div>
+          <Input
+            label='Departing Airport'
+            value={departingAirport}
+            update={setDepartingAirport} />
+          <Input
+            label='Arriving Airport'
+            value={arrivalAirport}
+            update={setArrivalAirport} />
+        </div>
+        <div>
+          <Input
+            label='Takeoffs'
+            value={takeoffs}
+            type='number'
+            update={setTakeoffs} />
+          <Input
+            label='Landings'
+            value={landings}
+            type='number'
+            update={setLandings} /> 
         <Input
-          label='Takeoffs'
-          value={takeoffs}
+          label='Night Takeoffs'
+          value={nightTakeoffs}
           type='number'
-          update={setTakeoffs} />
+          update={setNightTakeoffs} />
         <Input
-          label='Landings'
-          value={landings}
+          label='Night Landings'
+          value={nightLandings}
           type='number'
-          update={setLandings} /> 
-      <Input
-        label='Night Takeoffs'
-        value={nightTakeoffs}
-        type='number'
-        update={setNightTakeoffs} />
-      <Input
-        label='Night Landings'
-        value={nightLandings}
-        type='number'
-        update={setNightLandings} /> 
-      </div>
-      <Input
-        label='Remarks'
-        type='textarea'
-        value={remarks}
-        update={setRemarks} />
-      <Input
-        label='Instructor Name'
-        value={instructor}
-        update={setInstructor} />
-      <Input
-        label='Durration'
-        value={durration}
-        type='number'
-        update={setDurration} />
-      <Signature
-        signature={signature}
-        setSignature={setSignature} />
-      <Submit label="Save Flight" />
-    </form>
+          update={setNightLandings} /> 
+        </div>
+        <Input
+          label='Remarks'
+          type='textarea'
+          value={remarks}
+          update={setRemarks} />
+        <Input
+          label='Instructor Name'
+          value={instructor}
+          update={setInstructor} />
+        <Input
+          label='Durration'
+          value={durration}
+          type='number'
+          update={setDurration} />
+        <Signature
+          signature={signature}
+          setSignature={setSignature} />
+        <Submit label="Save Flight" />
+      </form>
+      <Flights />
+    </div>
   );
 }
 
@@ -112,7 +131,14 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    flights: state.flights
+  }
+}
+
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(NewFlight)

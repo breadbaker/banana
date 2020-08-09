@@ -2,7 +2,9 @@ const {download} = require('@util')
 
 module.exports = async (event) => {
   const {
-    key
+    headers: {
+      email
+    }
   } = event
-  return await download(key)
+  return await download(email)
 };

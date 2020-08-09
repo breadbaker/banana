@@ -14,11 +14,64 @@ aws lambda  create-function  \
     --handler handlers.retrieveFlights
 
 
+aws lambda  create-function  \
+    --function-name flight-signup \
+    --zip-file fileb://upload.zip \
+    --runtime nodejs12.x \
+    --timeout 8 \
+    --environment Variables={ENV=STAGING} \
+    --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
+    --handler handlers.signup 
+
+aws lambda  create-function  \
+    --function-name flight-login \
+    --zip-file fileb://upload.zip \
+    --runtime nodejs12.x \
+    --timeout 8 \
+    --environment Variables={ENV=STAGING} \
+    --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
+    --handler handlers.login
+
+{
+    "AWS_REGION_NAME": "us-east-1",
+    "COGNITO_POOL_ID": "us-east-1_O5Y5OyLuS",
+    "COGNITO_POOL_CLIENT_ID": "2srv9j9ehlevbr27hmav8aen3g"
+}
+
+    --environment 
+    
+    Variables={KeyName1=string,KeyName2=string}
+    Variables={AWS_REGION_NAME=us-east-1,COGNITO_POOL_ID=us-east-1_O5Y5OyLuS,COGNITO_POOL_CLIENT_ID=2srv9j9ehlevbr27hmav8aen3g} \
+
+
+{WS_REGION=us-east-1,COGNITO_POOL_ID=us-east-1_O5Y5OyLuS,COGNITO_POOL_CLIENT_ID=2srv9j9ehlevbr27hmav8aen3g}
+aws lambda delete-function --function-name flight-renew
+aws lambda  create-function  \
+    --function-name flight-renew \
+    --zip-file fileb://upload.zip \
+    --runtime nodejs12.x \
+    --timeout 8 \
+    --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
+    --handler handlers.renew
+
+
 
 rm upload.zip 
 zip -r upload.zip .
 aws lambda  update-function-code  \
     --function-name create-flight \
+    --zip-file fileb://upload.zip
+aws lambda  update-function-code  \
+    --function-name get-flights \
+    --zip-file fileb://upload.zip
+aws lambda  update-function-code  \
+    --function-name flight-renew \
+    --zip-file fileb://upload.zip
+aws lambda  update-function-code  \
+    --function-name flight-signup \
+    --zip-file fileb://upload.zip
+aws lambda  update-function-code  \
+    --function-name flight-login \
     --zip-file fileb://upload.zip
 
 

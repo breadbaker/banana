@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-AWS.config.update({ region: process.env.AWS_REGION });
+AWS.config.update({ region: process.env.AWS_REGION_NAME });
 const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 const client = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19' });
 const genericParams = {
@@ -19,6 +19,7 @@ const login = function({
       "PASSWORD": password
     }
   }
+
   return new Promise((resolve, reject) => {
     client.adminInitiateAuth(params, function(err, data) {
       if (err) {
@@ -26,7 +27,6 @@ const login = function({
         reject(err);
         return;
       }
-      console.log(data)
       resolve(data)
     })
   })

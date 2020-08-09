@@ -13,10 +13,7 @@ const {
 
 module.exports = app => {
   app.post('/flight', asyncWrapper(async(req, res) => {
-    storeFlight({
-      data: req.body.data,
-      key: req.body.key
-    })
+    storeFlight(req.body)
     res.status(200).send()
   }))
 
@@ -27,23 +24,20 @@ module.exports = app => {
 
   app.post('/validate', asyncWrapper(async(req,res) => {
     const response = await validate(req.body)
-    console.log('login response')
-    console.log(response)
     return res.status(200).send(response)
   }))
 
   app.post('/renew', asyncWrapper(async(req,res) => {
     const response = await renew(req.body)
-    console.log('login response')
-    console.log(response)
+    console.log('renew response')
     return res.status(200).send(response)
   }))
 
   app.post('/signup', asyncWrapper(async(req, res) => {
     // try {
+      console.log('signup')
       const response = await signup(req.body)
       console.log('login response')
-      console.log(response)
       return res.status(200).send(response)
     // } catch (err) {
     //   return res.status(400).send(err)
@@ -51,10 +45,12 @@ module.exports = app => {
   }))
   
   app.post('/login', asyncWrapper(async(req, res) => {
+
     try {
       response = await login(req.body)
       return res.status(200).send(response)
     } catch (err) {
+      console.log(err)
       return res.status(400).send(err)
     }
   }))

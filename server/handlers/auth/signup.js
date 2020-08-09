@@ -1,6 +1,6 @@
 
 const AWS = require('aws-sdk');
-AWS.config.update({ region: process.env.AWS_REGION });
+AWS.config.update({ region: process.env.AWS_REGION_NAME });
 const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 const client = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19' });
 const uuid = require('uuid')

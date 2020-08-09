@@ -4,17 +4,18 @@ import axios from 'axios'
 import { push } from 'react-router-redux'
 import http from 'util/http'
 const saveFlight = flight => (dispatch, getState) => {
-  axios.post(`${getDomain()}/flight`,
-    {
-      key: 'testprod',
-      data: flight
+  http({
+    dispatch,
+    getState,
+    url: '/flight',
+    method: 'post',
+    data: flight
+  }).then(() => {
+    dispatch({
+      flight,
+      type: types.FLIGHTS_ADD
     })
-    .then(function (response) {
-      dispatch({
-        products: response.data,
-        type: types.FLIGHTS_ADD
-      })
-    })
+  })
 }
 
 const getDomain = () => {
@@ -28,10 +29,7 @@ const loadFlights = () => (dispatch, getState) => {
     dispatch,
     getState,
     url: '/flights',
-    method: 'post',
-    data: {
-      key: 'testprod'
-    }
+    method: 'post'
   }).then(response => {
     dispatch({
       flights: response.data,
@@ -45,7 +43,7 @@ const loadFlights = () => (dispatch, getState) => {
   // // dispatch(push('/app'))
   // axios.post(`${getDomain()}/flights`,
   //   {
-  //     key: 'testprod'
+  //     key: 'getState().auth.email'
   //   })
   //   .then(function (response) {
 
@@ -56,7 +54,11 @@ const signup = data => (dispatch, getState) => {
   axios.post(`${getDomain()}/signup`,
     data)
     .then(function (response) {
-      saveAuth(response.data.AuthenticationResult)
+      saveAuth({...response.data.AuthenticationResult, email: data.email})
+      dispatch({
+        ...data,
+        type: 'SET_AUTH'
+      })
       routeActions.push('/app/newFlight')
       dispatch({
         flights: response.data,
@@ -65,24 +67,17 @@ const signup = data => (dispatch, getState) => {
     })
 }
 
-const saveAuth = data => (dispatch) => {
+const saveAuth = data => {
   localStorage.setItem('auth', JSON.stringify(data))
-  dispatch({
-    ...data,
-    type: 'SET_AUTH'
-  })
 }
 
 const login = data => (dispatch, getState) => {
   axios.post(`${getDomain()}/login`,
     data)
     .then(function (response) {
-      localStorage.setItem('auth', JSON.stringify(response.data.AuthenticationResult))
-      dispatch({
-        ...data,
-        type: 'SET_AUTH'
-      })
-      dispatch(push('/app/newFlight'))
+      saveAuth({...response.data.AuthenticationResult, email: data.email})
+      dispatch({...response.data.AuthenticationResult, email: data.email, type: 'SET_AUTH'})
+      dispatch(push('/newFlight'))
       dispatch({
         flights: response.data,
         type: types.FLIGHTS_LIST

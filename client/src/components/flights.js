@@ -11,9 +11,10 @@ const color = 'white'
 function Flights({ flights }) {
   return (
     <div>
-      { flights.flights.map(flight => {
+      <h1>Past Flights</h1>
+      { flights.flights.map((flight, idx) => {
         return (
-          <div key={flight.id}>
+          <div key={idx}>
             <Display
               label='Aircraft'
               value={flight.aircraft}

@@ -1,16 +1,17 @@
-const upload = require('@util')
-const download = require('@util')
+const {download, upload} = require('@util')
 
 module.exports = async (event) => {
   console.log('event')
   console.log(event)
   const {
-    key,
+    headers: {
+      email
+    },
     data
   } = event
-  const userRecords = await download(key)
+  const userRecords = await download(email)
 
   userRecords.push(data)
 
-  return upload(JSON.stringify(userRecords), key)
+  return upload(JSON.stringify(userRecords), email)
 };

@@ -23,10 +23,9 @@ export default async function({
   method
 }) {
   let auth = getState().auth
-  const response = await axios.post(`${getDomain()}/renew`, auth)
 
   if (!auth.AccessToken) {
-    dispatch(push('/login'))
+    dispatch(push('/welcome/login'))
   } else {
 
     const {
@@ -35,33 +34,37 @@ export default async function({
 
     console.log(moment(new Date(exp * 1000)).diff(moment(new Date()), 'seconds'))
 
-    const expired = moment(new Date(exp * 1000)).diff(moment(new Date()), 'seconds') < 15
+    const diff = moment(new Date(exp * 1000)).diff(moment(new Date()), 'seconds')
 
-    if (true || expired) {
+    if (diff  < 15) {
       try {
-          const renewResponse = await axios.post(`${getDomain()}/renew`, auth)
-
+        const renewResponse = await axios.post(`${getDomain()}/renew`, auth)
         saveAuth(renewResponse.data.AuthenticationResult)
       } catch (err) {
-        dispatch(push('/login'))
+        dispatch(push('/welcome/login'))
       }
 
     }
 
     const {
       AccessToken,
-      IdToken
+      IdToken,
+      email
     } = getState().auth
 
-    const response = await axios[method](`${getDomain()}${url}`,
-      {
-        data,
-        headers: {
-          AccessToken,
-          IdToken
-        }
+    const payload =  {
+      data,
+      headers: {
+        AccessToken,
+        IdToken,
+        email
       }
-    )
+    }
+    console.log('url payload')
+    console.log(url)
+    console.log(payload)
+
+    const response = await axios[method](`${getDomain()}${url}`, payload)
 
     return response
   }
