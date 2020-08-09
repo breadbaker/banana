@@ -8,17 +8,6 @@ import Header from 'components/header'
 function LoggedOutApp({children}) {
   return (
     <div
-      className={css`
-        padding: 12px;
-        background-color: #e4e4e4;
-        font-size: 14px;
-        font-family: helvetica;
-        font-weight: bold;
-        border-radius: 4px;
-        display: block;
-        max-width: 500px;
-        margin: 0 auto;
-    `}
     >
       <Header links={[
         {

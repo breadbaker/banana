@@ -1,5 +1,22 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
+const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
+const path = require('path')
+const options = {
+  antDir: path.join(__dirname, './node_modules/antd'),
+  stylesDir: path.join(__dirname, './src'),
+  varFile: path.join(__dirname, './src/styles/variables.less'),
+  themeVariables: ['@primary-color'],
+  indexFileName: 'index.html',
+  generateOnce: false,
+  lessUrl: "https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js",
+  publicPath: "",
+  customColorRegexArray: [], // An array of regex codes to match your custom color variable values so that code can identify that it's a valid color. Make sure your regex does not adds false positives.
+}
+ 
+const themePlugin = new AntDesignThemePlugin(options);
+// in config object
+
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
   filename: "./index.html"
@@ -37,7 +54,10 @@ module.exports = {
       },
     ]
   },
-  plugins: [htmlPlugin]
+  plugins: [htmlPlugin, themePlugin],
+  resolve: {
+    extensions: ['.js', '.jsx', '.less']
+  }
 };
 
 

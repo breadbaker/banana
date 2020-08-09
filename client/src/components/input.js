@@ -3,6 +3,8 @@ import React, { Component, PropTypes, useRef, useState } from 'react'
 
 import { css } from 'emotion'
 
+import TextField from '@material-ui/core/TextField'
+
 const color = 'grey'
 
 function Input({label, value, update, type = 'text'}) {
@@ -15,35 +17,45 @@ function Input({label, value, update, type = 'text'}) {
         local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
         return local.toJSON().slice(0,10);
     }
-    
+
     return (
-        <div
-            className={css`
-                display: inline-block;
-                width: ${type=== 'number' ? '25%': '33%'}
-            `}
-        >
-            <label>
-                {`${label}:`}
-                <div
-                    className={css`
-                        padding: 12px;
-                        padding-right: 30px;
-                    `}
-                >
-                    <input 
-                        className={css`
-                            padding: 5px;
-                            width: 100%;
-                        `}
-                        type={type}
-                        onChange={inputChange}
-                        value={type === 'date' && !value ? defaultDate() : value} 
-                    />
-                </div>
-            </label>
-        </div>
+        <TextField
+            id="standard-basic"
+            onChange={inputChange}
+            type={type}
+            value={type === 'date' && !value ? defaultDate() : value}
+            label={label} 
+        />
     )
+    
+    // return (
+    //     <div
+    //         className={css`
+    //             display: inline-block;
+    //             width: ${type=== 'number' ? '25%': '33%'}
+    //         `}
+    //     >
+    //         <label>
+    //             {`${label}:`}
+    //             <div
+    //                 className={css`
+    //                     padding: 12px;
+    //                     padding-right: 30px;
+    //                 `}
+    //             >
+    //                 <input 
+    //                     className={css`
+    //                         padding: 5px;
+    //                         width: 100%;
+    //                     `}
+    //                     type={type}
+    //                     onChange={inputChange}
+    //                     value={type === 'date' && !value ? defaultDate() : value} 
+    //                 />
+    //             </div>
+    //         </label>
+    //     </div>
+    // )
 }
 
 export default Input

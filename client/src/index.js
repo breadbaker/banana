@@ -14,6 +14,10 @@ import Signup from 'components/signup'
 import Login from 'components/login'
 import Forgot from 'components/forgot'
 import Reset from 'components/reset'
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+
 import { css } from 'emotion'
 import jwt from 'jsonwebtoken'
 
@@ -33,24 +37,27 @@ if (auth) {
   store.dispatch(push('/welcome/login'))
 }
 
-store.dispatch(Actions.loadFlights())
+// store.dispatch(Actions.loadFlights())
+store.dispatch(Actions.exportRecords())
 // store.dispatch(push('/app'))
 render(
   <Provider store={store}>
     <Router history={history}>
-
-      <Route path="/welcome" component={LoggedOutApp}>
-        <IndexRoute component={Login} />
-        <Route path="/login" component={Login}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/reset" component={Reset}/>
-        <Route path="/forgot" component={Forgot}/>
-      </Route>
-      <Route path="/" component={App}>
-        <IndexRoute component={NewFlight} />
-        <Route path="flights" component={Flights}/>
-        <Route path="newFlight" component={NewFlight} />
-      </Route>
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <Route path="/welcome" component={LoggedOutApp}>
+          <IndexRoute component={Login} />
+          <Route path="login" component={Login}/>
+          <Route path="signup" component={Signup}/>
+          <Route path="/reset" component={Reset}/>
+          <Route path="/forgot" component={Forgot}/>
+        </Route>
+        <Route path="/" component={App}>
+          <IndexRoute component={NewFlight} />
+          <Route path="flights" component={Flights}/>
+          <Route path="newFlight" component={NewFlight} />
+        </Route>
+      </Container>
     </Router>
   </Provider>,
   document.getElementById('root')

@@ -17,6 +17,20 @@ const saveFlight = flight => (dispatch, getState) => {
     })
   })
 }
+const exportRecords = () => (dispatch, getState) => {
+  http({
+    dispatch,
+    getState,
+    url: '/export-records',
+    method: 'post'
+  }).then(response => {
+    // dispatch({
+    //   flights: response.data,
+    //   type: types.FLIGHTS_LIST
+    // })
+  })
+}
+
 
 const getDomain = () => {
   return window.location.host.includes('localhost') ? 'http://localhost:3000' : 'https://api.flightlogbox.com'
@@ -36,6 +50,7 @@ const loadFlights = () => (dispatch, getState) => {
       type: types.FLIGHTS_LIST
     })
   })
+
 
 
 
@@ -88,6 +103,7 @@ const login = data => (dispatch, getState) => {
 export default {
   saveFlight,
   loadFlights,
+  exportRecords,
   signup,
   login
 }

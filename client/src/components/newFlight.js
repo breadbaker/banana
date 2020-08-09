@@ -7,7 +7,17 @@ import { css } from 'emotion'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
-import { Button, DatePicker } from 'antd';
+
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 function NewFlight({ actions, flights }) {
 
   const [signature, setSignature] = useState('');
@@ -53,12 +63,14 @@ function NewFlight({ actions, flights }) {
     setInstructor('')
   }
 
+  const classes = useStyles();
 
   return (
     <div>
-      <Button type="primary">PRESS ME</Button>
-      <DatePicker placeholder="select date" />
-      <form onSubmit={submit}>
+      <form
+        onSubmit={submit}
+        className={classes.root}
+        noValidate autoComplete="off">
         <h1>New Flight</h1>
         <Input
           label='Aircraft'
@@ -69,7 +81,6 @@ function NewFlight({ actions, flights }) {
           value={date}
           type='date'
           update={setDate} />
-        <div>
           <Input
             label='Departing Airport'
             value={departingAirport}
@@ -78,8 +89,6 @@ function NewFlight({ actions, flights }) {
             label='Arriving Airport'
             value={arrivalAirport}
             update={setArrivalAirport} />
-        </div>
-        <div>
           <Input
             label='Takeoffs'
             value={takeoffs}
@@ -100,7 +109,6 @@ function NewFlight({ actions, flights }) {
           value={nightLandings}
           type='number'
           update={setNightLandings} /> 
-        </div>
         <Input
           label='Remarks'
           type='textarea'
