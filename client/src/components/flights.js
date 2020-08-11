@@ -19,13 +19,13 @@ function Flights({ flights }) {
           <div key={idx}>
             <div>
               <Display
-                label='Aircraft'
-                value={flight.aircraft}
-              />
-              <Display
                 label='Date'
                 value={moment(flight.date).format('l')}
                 type='date'
+              />
+              <Display
+                label='Aircraft'
+                value={flight.aircraft}
               />
               <Display
                 label='Departing Airport'
