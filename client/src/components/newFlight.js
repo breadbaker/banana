@@ -14,13 +14,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
+      width: '30ch',
     },
   },
 }));
 function NewFlight({ actions, flights }) {
 
   const [signature, setSignature] = useState('');
+  const [saving, setSaving] = useState(false);
   const [aircraft, setAircraft] = useState('')
   const [date, setDate] = useState(new Date())
   const [departingAirport, setDepartingAirport] = useState('')
@@ -49,6 +50,10 @@ function NewFlight({ actions, flights }) {
       instructor,
       remarks
     })
+    setSaving(true)
+    setTimeout(() => {
+      setSaving(false)
+    }, 200)
     setSignature('')
     setAircraft('')
     setDate(new Date())
@@ -66,7 +71,10 @@ function NewFlight({ actions, flights }) {
   const classes = useStyles();
 
   return (
-    <div>
+    <div
+      className={css`
+          background-color: ${saving ? '#80808030' : 'transparent'};
+        `}>
       <form
         onSubmit={submit}
         className={classes.root}
@@ -123,12 +131,16 @@ function NewFlight({ actions, flights }) {
           value={durration}
           type='number'
           update={setDurration} />
-        <Signature
-          signature={signature}
-          setSignature={setSignature} />
-        <Submit label="Save Flight" />
+        <div
+            className={css`
+            width: 100%;
+          `}>
+          <Signature
+            signature={signature}
+            setSignature={setSignature} />
+          <Submit label="Save Flight" />
+        </div>
       </form>
-      <Flights />
     </div>
   );
 }

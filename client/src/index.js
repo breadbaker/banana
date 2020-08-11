@@ -37,28 +37,31 @@ if (auth) {
   store.dispatch(push('/welcome/login'))
 }
 
-// store.dispatch(Actions.loadFlights())
-store.dispatch(Actions.exportRecords())
+store.dispatch(Actions.loadFlights())
+// store.dispatch(Actions.exportRecords())
 // store.dispatch(push('/app'))
 render(
-  <Provider store={store}>
-    <Router history={history}>
-      <CssBaseline />
-      <Container maxWidth="sm">
-        <Route path="/welcome" component={LoggedOutApp}>
-          <IndexRoute component={Login} />
-          <Route path="login" component={Login}/>
-          <Route path="signup" component={Signup}/>
-          <Route path="/reset" component={Reset}/>
-          <Route path="/forgot" component={Forgot}/>
-        </Route>
-        <Route path="/" component={App}>
-          <IndexRoute component={NewFlight} />
-          <Route path="flights" component={Flights}/>
-          <Route path="newFlight" component={NewFlight} />
-        </Route>
-      </Container>
-    </Router>
-  </Provider>,
+  <React.Fragment>
+    <CssBaseline />
+    <Container maxWidth="sm">
+      <Provider store={store}>
+        <Router history={history}>
+
+          <Route path="/welcome" component={LoggedOutApp}>
+            <IndexRoute component={Login} />
+            <Route path="login" component={Login}/>
+            <Route path="signup" component={Signup}/>
+            <Route path="/reset" component={Reset}/>
+            <Route path="/forgot" component={Forgot}/>
+          </Route>
+          <Route path="/" component={App}>
+            <IndexRoute component={NewFlight} />
+            <Route path="flights" component={Flights}/>
+            <Route path="newFlight" component={NewFlight} />
+          </Route>
+        </Router>
+      </Provider>
+    </Container>
+  </React.Fragment>,
   document.getElementById('root')
 )

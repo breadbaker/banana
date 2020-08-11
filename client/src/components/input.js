@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField'
 
 const color = 'grey'
 
-function Input({label, value, update, type = 'text'}) {
+function Input({label, value, update, type = 'text', disabled = false}) {
     function inputChange(event) {
         update(event.target.value)
     }
@@ -21,8 +21,12 @@ function Input({label, value, update, type = 'text'}) {
     return (
         <TextField
             id="standard-basic"
+            disabled={disabled}
             onChange={inputChange}
             type={type}
+            InputLabelProps={{
+                shrink: true,
+              }}
             value={type === 'date' && !value ? defaultDate() : value}
             label={label} 
         />

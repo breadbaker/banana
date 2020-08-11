@@ -40,7 +40,7 @@ function Input({setSignature, signature}) {
                     setSignature('')
                     canvas.current.clear()
                 }}>
-                    Clear
+                    Reset Signature
                 </button>
             }
       </div>

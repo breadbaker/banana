@@ -9,21 +9,19 @@ function Display({label, value}) {
         <div
             className={css`
                 display: inline-block;
-                width: 50%;
+                width: 33%;
             `}
         >
             <label>
                 {`${label}:`}
-                <div
+                <span
                     className={css`
                         padding: 12px;
                         padding-right: 20px;
                     `}
                 >
-                    <p>
-                        {value}
-                    </p>
-                </div>
+                    {value}
+                </span>
             </label>
         </div>
     )

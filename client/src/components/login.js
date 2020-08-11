@@ -4,6 +4,15 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
 import Submit from 'components/submit'
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}))
 
 function Login({ actions }) {
 
@@ -18,9 +27,11 @@ function Login({ actions }) {
     })
   }
 
+  const classes = useStyles();
+
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} className={classes.root}>
       <h1>Login</h1>
       <Input
         label='email'

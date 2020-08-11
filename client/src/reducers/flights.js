@@ -12,9 +12,9 @@ export default function flights(state = initialState, action) {
         flights: action.flights
       }
     case FLIGHTS_ADD:
+      state.flights.unshift(action.flight)
       return {
-        ...state,
-        flights: [action.flight].concat(state.flights)
+        ...state
       }
     default:
       return state
