@@ -1,18 +1,10 @@
 import React, { useState } from 'react'
 import Input from 'components/input'
+import Form from 'components/form'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
 import Submit from 'components/submit'
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-}))
 
 function Login({ actions }) {
 
@@ -20,19 +12,14 @@ function Login({ actions }) {
   const [password, setPassword] = useState('')
 
   const submit = function (e) {
-    e.preventDefault()
     actions.login({
       email,
       password
     })
   }
 
-  const classes = useStyles();
-
-
   return (
-    <form onSubmit={submit} className={classes.root}>
-      <h1>Login</h1>
+    <Form onSubmit={submit}>
       <Input
         label='email'
         value={email}
@@ -43,8 +30,8 @@ function Login({ actions }) {
         value={password}
         type="password"
         update={setPassword} />
-      <Submit />
-    </form>
+      <Submit label="Log In" />
+    </Form>
   );
 }
   

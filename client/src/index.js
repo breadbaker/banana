@@ -10,6 +10,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore, push } from 'react-router-redux'
 import NewFlight from 'components/newFlight'
 import Flights from 'components/flights'
+import Export from 'components/export'
 import Signup from 'components/signup'
 import Login from 'components/login'
 import Forgot from 'components/forgot'
@@ -39,7 +40,7 @@ if (auth) {
 
 store.dispatch(Actions.loadFlights())
 // store.dispatch(Actions.exportRecords())
-// store.dispatch(push('/app'))
+// store.dispatch(push('/flights'))
 render(
   <React.Fragment>
     <CssBaseline />
@@ -56,9 +57,10 @@ render(
           </Route>
           <Route path="/" component={App}>
             <IndexRoute component={NewFlight} />
-            <Route path="flights" component={Flights}/>
+            <Route path="export" component={Export} />
             <Route path="newFlight" component={NewFlight} />
           </Route>
+          <Route path="flights" component={Flights}/>
         </Router>
       </Provider>
     </Container>

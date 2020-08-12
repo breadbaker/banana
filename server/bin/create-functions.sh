@@ -54,6 +54,18 @@ aws lambda  create-function  \
     --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
     --handler handlers.renew
 
+aws lambda  create-function  \
+    --function-name flight-export-records \
+    --zip-file fileb://upload.zip \
+    --runtime nodejs12.x \
+    --timeout 8 \
+    --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
+    --handler handlers.exportRecords \
+    --profile default \
+    --region us-east-1
+
+
+
 
 
 rm upload.zip 
@@ -73,7 +85,9 @@ aws lambda  update-function-code  \
 aws lambda  update-function-code  \
     --function-name flight-login \
     --zip-file fileb://upload.zip
-
+aws lambda flight-export-records \
+    --function-name flight-export-records \
+    --zip-file fileb://upload.zip
 
 
 

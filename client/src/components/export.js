@@ -9,30 +9,21 @@ import Actions from 'actions'
 const color = 'white'
 
 
-function Flights({ flights, actions }) {
+function Export({ auth }) {
   return (
     <div
       className={css(`
-        // margin-top: -80px;
+        margin-left: -23px;
         // background: white;
       `)}>
-      { flights.flights.map((flight, idx) => {
-        return (
-          <FlightCard
-            key={flight.id || idx}
-            flight={flight} 
-          />
-          )
-      })}
+      <img src={`https://flightlogboxuserrecords.s3.amazonaws.com/${encodeURIComponent(auth.email)}export.png`} />
     </div>
   )
 }
 
 
 function mapStateToProps(state) {
-  return {
-    flights: state.flights
-  }
+  return state
 }
 
 function mapDispatchToProps(dispatch) {
@@ -45,4 +36,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Flights)
+)(Export)

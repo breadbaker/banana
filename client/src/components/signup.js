@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Submit from 'components/submit'
 import Input from 'components/input'
+import Form from 'components/form'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
@@ -12,7 +13,6 @@ function Signup({ actions }) {
   const [password, setPassword] = useState('')
 
   const submit = function (e) {
-    e.preventDefault()
     actions.signup({
       email,
       firstName,
@@ -23,8 +23,7 @@ function Signup({ actions }) {
 
 
   return (
-    <form onSubmit={submit}>
-      <h1>Signup</h1>
+    <Form onSubmit={submit}>
       <Input
         label='Email'
         value={email}
@@ -42,8 +41,8 @@ function Signup({ actions }) {
         value={password}
         type="password"
         update={setPassword} />
-      <Submit />
-    </form>
+      <Submit label="Sign Up" />
+    </Form>
   );
 }
   

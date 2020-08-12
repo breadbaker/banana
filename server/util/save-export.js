@@ -20,5 +20,5 @@ module.exports = async ({ filePath, email }) => {
     console.log('err', err)
   }
 
-  await fs.unlinkSync(filePath)
+  // await fs.unlinkSync(filePath)
 }

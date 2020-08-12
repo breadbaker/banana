@@ -100,10 +100,21 @@ const login = data => (dispatch, getState) => {
     })
 }
 
+const logout = () => (dispatch) => {
+  localStorage.setItem('auth', JSON.stringify({}))
+  dispatch(push('/welcome/login'))
+}
+
+const nav = url => (dispatch) => {
+  dispatch(push(url))
+}
+
 export default {
   saveFlight,
   loadFlights,
   exportRecords,
   signup,
-  login
+  login,
+  nav,
+  logout
 }

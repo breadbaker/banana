@@ -2,8 +2,11 @@
 import React, { Component, PropTypes, useRef, useState } from 'react'
 import CanvasDraw from "react-canvas-draw"
 
-
+import Paper from '@material-ui/core/Paper'
 import { css } from 'emotion'
+
+
+import Button from '@material-ui/core/Button';
 
 const color = 'grey'
 
@@ -15,34 +18,58 @@ function Input({setSignature, signature}) {
     }
     return (
         <div>
-            <label>
-                Signature:
+            <div>
                 <div
                     className={css`
-                        padding: 12px;
-                        overflow-x: hidden;
-                        margin-right: 20px;
-                    `}
-                >
-                    <CanvasDraw
-                        hideGrid={true}
-                        canvasWidth={480}
-                        canvasHeight={160}
-                        brushRadius={2}
-                        lazyRadius={2}
-                        ref={canvas} 
-                        onChange={saveSignature} />
-
+                            display: inline-block;
+                            text-align: left;
+                            width: 50%;
+                            
+                        `}
+                    >  
+                Signature:
                 </div>
-            </label>
             { setSignature &&
-                <button onClick={() => {
-                    setSignature('')
-                    canvas.current.clear()
-                }}>
-                    Reset Signature
-                </button>
-            }
+                    <div
+                    className={css`
+                            display: inline-block;
+                            text-align: right;
+                            width: 50%;
+                            
+                        `}
+                    >
+                        <Button
+                            onClick={() => {
+                                setSignature('')
+                                canvas.current.clear()
+                            }}
+                            color="primary">
+                                Reset Signature
+                            </Button>
+                    </div>
+                }
+            </div>
+
+            <div
+                className={css`
+                    padding: 12px;
+                    overflow-x: hidden;
+                    margin-right: 20px;
+                `}
+            >
+                
+                <Paper elevation={3}>
+                    
+                <CanvasDraw
+                    hideGrid={true}
+                    canvasWidth={480}
+                    canvasHeight={160}
+                    brushRadius={2}
+                    lazyRadius={2}
+                    ref={canvas} 
+                    onChange={saveSignature} />
+                    </Paper>
+            </div>
       </div>
     )
 }

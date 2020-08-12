@@ -1,24 +1,18 @@
 import React, { Component, PropTypes, useRef, useState } from 'react'
 import Input from 'components/input'
+import NumberRange from 'components/number-range-input'
 import Signature from 'components/signature'
 import Submit from 'components/submit'
+import Form from 'components/form'
 import Flights from 'components/flights'
 import { css } from 'emotion'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
-
+import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '30ch',
-    },
-  },
-}));
-function NewFlight({ actions, flights }) {
+function NewFlight({ actions }) {
 
   const [signature, setSignature] = useState('');
   const [saving, setSaving] = useState(false);
@@ -34,8 +28,7 @@ function NewFlight({ actions, flights }) {
   const [remarks, setRemarks] = useState('')
   const [instructor, setInstructor] = useState('')
 
-  const submit = function (e) {
-    e.preventDefault()
+  const submit = function () {
     actions.saveFlight({
       signature,
       aircraft,
@@ -68,25 +61,20 @@ function NewFlight({ actions, flights }) {
     setInstructor('')
   }
 
-  const classes = useStyles();
-
   return (
     <div
       className={css`
           background-color: ${saving ? '#80808030' : 'transparent'};
         `}>
-      <form
-        onSubmit={submit}
-        className={classes.root}
-        noValidate autoComplete="off">
-        <h1>New Flight</h1>
+      <Form
+        onSubmit={submit}>
         <Input
           label='Aircraft'
           value={aircraft}
           update={setAircraft} />
         <Input
           label='Date'
-          value={date}
+          value={moment(date).format('YYYY-MM-DD')}
           type='date'
           update={setDate} />
           <Input
@@ -97,22 +85,29 @@ function NewFlight({ actions, flights }) {
             label='Arriving Airport'
             value={arrivalAirport}
             update={setArrivalAirport} />
-          <Input
+          <NumberRange
             label='Takeoffs'
             value={takeoffs}
-            type='number'
+            min={0}
+            max={10}
             update={setTakeoffs} />
-          <Input
+          <NumberRange
+            min={0}
+            max={10}
             label='Landings'
             value={landings}
             type='number'
             update={setLandings} /> 
-        <Input
+        <NumberRange
+          min={0}
+          max={10}
           label='Night Takeoffs'
           value={nightTakeoffs}
           type='number'
           update={setNightTakeoffs} />
-        <Input
+        <NumberRange
+          min={0}
+          max={10}
           label='Night Landings'
           value={nightLandings}
           type='number'
@@ -140,7 +135,7 @@ function NewFlight({ actions, flights }) {
             setSignature={setSignature} />
           <Submit label="Save Flight" />
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
