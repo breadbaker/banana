@@ -59,6 +59,7 @@ function NewFlight({ actions }) {
     setNightTakeoffs(0)
     setRemarks('')
     setInstructor('')
+    canvas.current.clear()
   }
 
   return (

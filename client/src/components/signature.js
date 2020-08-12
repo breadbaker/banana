@@ -13,6 +13,8 @@ const color = 'grey'
 function Input({setSignature, signature}) {
     const canvas = useRef(null);
 
+    window.canvas = canvas
+
     function saveSignature() {
       setSignature(canvas.current.getSaveData())
     }
