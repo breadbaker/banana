@@ -38,7 +38,7 @@ if (auth) {
   store.dispatch(push('/welcome/login'))
 }
 
-store.dispatch(Actions.loadFlights())
+
 // store.dispatch(Actions.exportRecords())
 // store.dispatch(push('/flights'))
 render(

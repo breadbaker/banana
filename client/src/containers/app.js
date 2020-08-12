@@ -66,7 +66,10 @@ function App({ children, actions, state }) {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose('newFlight')}>New Flight</MenuItem>
-              <MenuItem id="past-flights" onClick={handleClose('flights')}>Past Flights</MenuItem>
+              <MenuItem id="past-flights" onClick={() => {
+                handleClose('flights')()
+                actions.loadFlights()
+              }}>Past Flights</MenuItem>
               <MenuItem onClick={handleClose('export')}>Log Export</MenuItem>
               <MenuItem onClick={actions.logout}>Logout</MenuItem>
             </Menu>
