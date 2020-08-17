@@ -15,7 +15,7 @@ module.exports = async (event) => {
   userRecords.push(data)
 
   await upload(JSON.stringify(userRecords), email)
-  event.recordsCount = userRecords.length
-  await exportRecords(event)
+  // event.recordsCount = userRecords.length
+  // await exportRecords(event)
   return
 };

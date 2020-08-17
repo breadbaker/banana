@@ -39,12 +39,12 @@ if (auth) {
 }
 
 
-// store.dispatch(Actions.exportRecords())
+store.dispatch(Actions.loadFlights())
 // store.dispatch(push('/flights'))
 render(
   <React.Fragment>
     <CssBaseline />
-    <Container maxWidth="sm">
+    <Container maxWidth="xs">
       <Provider store={store}>
         <Router history={history}>
 
@@ -56,11 +56,11 @@ render(
             <Route path="/forgot" component={Forgot}/>
           </Route>
           <Route path="/" component={App}>
-            <IndexRoute component={NewFlight} />
+            <IndexRoute component={Flights} />
             <Route path="export" component={Export} />
+            <Route path="flights" component={Flights}/>
             <Route path="newFlight" component={NewFlight} />
           </Route>
-          <Route path="flights" component={Flights}/>
         </Router>
       </Provider>
     </Container>

@@ -55,7 +55,7 @@ aws lambda  create-function  \
     --handler handlers.renew
 
 aws lambda  create-function  \
-    --function-name flight-export-records \
+    --function-name flight-export-records1 \
     --zip-file fileb://upload.zip \
     --runtime nodejs12.x \
     --timeout 8 \
@@ -71,25 +71,65 @@ aws lambda  create-function  \
 rm upload.zip 
 zip -r upload.zip .
 aws lambda  update-function-code  \
+    --function-name flight-login \
+    --s3-bucket flightcode \
+    --s3-key upload.zip \
+    --profile default \
+    --region us-east-1
+aws lambda  update-function-code  \
+    --function-name create-flight \
+    --s3-bucket flightcode \
+    --s3-key upload.zip \
+    --profile default \
+    --region us-east-1
+aws lambda  update-function-code  \
+    --function-name get-flights \
+    --s3-bucket flightcode \
+    --s3-key upload.zip \
+    --profile default \
+    --region us-east-1
+aws lambda  update-function-code  \
+    --function-name flight-signup \
+    --s3-bucket flightcode \
+    --s3-key upload.zip \
+    --profile default \
+    --region us-east-1
+aws lambda  update-function-code  \
+    --function-name flight-renew \
+    --s3-bucket flightcode \
+    --s3-key upload.zip \
+    --profile default \
+    --region us-east-1
+
+
+aws lambda  update-function-code  \
     --function-name create-flight \
     --zip-file fileb://upload.zip
 aws lambda  update-function-code  \
     --function-name get-flights \
-    --zip-file fileb://upload.zip
+    --zip-file fileb://upload.zip \
+    --profile default \
+    --region us-east-1
 aws lambda  update-function-code  \
     --function-name flight-renew \
-    --zip-file fileb://upload.zip
+    --zip-file fileb://upload.zip \
+    --profile default \
+    --region us-east-1
 aws lambda  update-function-code  \
     --function-name flight-signup \
-    --zip-file fileb://upload.zip
+    --zip-file fileb://upload.zip \
+    --profile default \
+    --region us-east-1
 aws lambda  update-function-code  \
     --function-name flight-login \
-    --zip-file fileb://upload.zip
-aws lambda flight-export-records \
+    --zip-file fileb://upload.zip \
+    --profile default \
+    --region us-east-1
+aws lambda update-function-code \
     --function-name flight-export-records \
-    --zip-file fileb://upload.zip
-
-
+    --zip-file fileb://upload.zip \
+    --profile default \
+    --region us-east-1
 
 aws apigateway update-gateway-response --rest-api-id "b9bovtjtgj" --response-type "DEFAULT_4XX" --patch-operations op="add",path="/responseParameters/gatewayresponse.header.Access-Control-Allow-Origin",value='"'"'*'"'"'
 

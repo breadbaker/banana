@@ -1,2 +1,4 @@
 export const FLIGHTS_LIST = 'FLIGHTS_LIST'
 export const FLIGHTS_ADD = 'FLIGHTS_ADD'
+export const FLIGHTS_DELETE = 'FLIGHTS_DELETE'
+export const FLIGHTS_UPDATE = 'FLIGHTS_UPDATE'

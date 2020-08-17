@@ -70,7 +70,6 @@ function App({ children, actions, state }) {
                 handleClose('flights')()
                 actions.loadFlights()
               }}>Past Flights</MenuItem>
-              <MenuItem onClick={handleClose('export')}>Log Export</MenuItem>
               <MenuItem onClick={actions.logout}>Logout</MenuItem>
             </Menu>
             <Typography variant="h6" className={classes.title}>
@@ -83,6 +82,9 @@ function App({ children, actions, state }) {
     </div>
   );
 }
+
+{/* <MenuItem onClick={handleClose('export')}>Log Export</MenuItem> */}
+
 
 function mapStateToProps(state) {
   return {

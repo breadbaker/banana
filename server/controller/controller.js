@@ -3,6 +3,7 @@ const asyncWrapper = require('middleware/async-wrapper')
 const {
   storeFlight,
   retrieveFlights,
+  updateFlight,
   exportRecords,
   signup,
   login,
@@ -21,6 +22,11 @@ module.exports = app => {
   app.post('/flights', asyncWrapper(async(req, res) => {
     const flights = await retrieveFlights(req.body)
     res.status(200).send(flights)
+  }))
+
+  app.put('/flights', asyncWrapper(async(req, res) => {
+    await updateFlight(req.body)
+    res.status(200).send()
   }))
 
   app.post('/export-records', asyncWrapper(async(req, res) => {

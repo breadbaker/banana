@@ -16,11 +16,15 @@ function Flights({ flights, actions }) {
         // margin-top: -80px;
         // background: white;
       `)}>
+      <h1>
+        Total Flight Hours: {flights.totalFlightTime}
+      </h1>
       { flights.flights.map((flight, idx) => {
         return (
           <FlightCard
             key={flight.id || idx}
             flight={flight} 
+            updateFlight={actions.updateFlight}
           />
           )
       })}

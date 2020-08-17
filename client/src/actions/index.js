@@ -3,6 +3,7 @@ import { createActions } from 'redux-actions'
 import axios from 'axios'
 import { push } from 'react-router-redux'
 import http from 'util/http'
+import { type } from 'os'
 const saveFlight = flight => (dispatch, getState) => {
   http({
     dispatch,
@@ -15,6 +16,21 @@ const saveFlight = flight => (dispatch, getState) => {
       flight,
       type: types.FLIGHTS_ADD
     })
+  })
+}
+
+const updateFlight = flight => (dispatch, getState) => {
+  dispatch({
+    payload: flight,
+    type: flight.deletedAt ? types.FLIGHTS_DELETE : types.FLIGHTS_UPDATE
+  })
+  http({
+    dispatch,
+    getState,
+    url: '/flights',
+    method: 'put',
+    data: flight
+  }).then(() => {
   })
 }
 const exportRecords = () => (dispatch, getState) => {
@@ -113,6 +129,7 @@ export default {
   saveFlight,
   loadFlights,
   exportRecords,
+  updateFlight,
   signup,
   login,
   nav,

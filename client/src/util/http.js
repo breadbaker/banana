@@ -7,14 +7,6 @@ const getDomain = () => {
   return window.location.host.includes('localhost') ? 'http://localhost:3000' : 'https://api.flightlogbox.com'
 }
 
-const saveAuth = data => (dispatch) => {
-  localStorage.setItem('auth', JSON.stringify(data))
-  dispatch({
-    ...data,
-    type: 'SET_AUTH'
-  })
-}
-
 export default async function({
   dispatch,
   getState,
@@ -39,7 +31,14 @@ export default async function({
     if (diff  < 15) {
       try {
         const renewResponse = await axios.post(`${getDomain()}/renew`, auth)
-        saveAuth(renewResponse.data.AuthenticationResult)
+        const data = renewResponse.data.AuthenticationResult
+        data.auth_time = new Date()
+        const newAuth = {...auth, ...data}
+        localStorage.setItem('auth', JSON.stringify(newAuth))
+        dispatch({
+          ...newAuth,
+          type: 'SET_AUTH'
+        })
       } catch (err) {
         dispatch(push('/welcome/login'))
       }

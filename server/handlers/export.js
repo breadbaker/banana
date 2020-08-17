@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
+// const chromeLambda = require("chrome-aws-lambda");
+
+// const puppeteer = chromeLambda.puppeteer
 const { saveExport } = require('@util');
 
 module.exports = async event => {

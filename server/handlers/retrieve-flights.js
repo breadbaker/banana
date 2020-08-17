@@ -1,4 +1,5 @@
 const {download} = require('@util')
+const { v4: uuidv4 } = require('uuid')
 
 module.exports = async (event) => {
   const {
@@ -6,5 +7,7 @@ module.exports = async (event) => {
       email
     }
   } = event
-  return await download(email)
+  const flights = await download(email)
+
+  return flights
 };
