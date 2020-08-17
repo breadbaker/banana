@@ -47,7 +47,6 @@ render(
     <Container maxWidth="xs">
       <Provider store={store}>
         <Router history={history}>
-
           <Route path="/welcome" component={LoggedOutApp}>
             <IndexRoute component={Login} />
             <Route path="login" component={Login}/>
@@ -56,7 +55,7 @@ render(
             <Route path="/forgot" component={Forgot}/>
           </Route>
           <Route path="/" component={App}>
-            <IndexRoute component={Flights} />
+            <IndexRoute component={NewFlight} />
             <Route path="export" component={Export} />
             <Route path="flights" component={Flights}/>
             <Route path="newFlight" component={NewFlight} />

@@ -1,7 +1,16 @@
 import React, { Component, PropTypes, useRef, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 
-function Input({label, value, update, type = 'text', disabled = false}) {
+function Input({
+    label,
+    value,
+    update,
+    type = 'text',
+    disabled = false,
+    multiline,
+    error,
+    required
+}) {
     function inputChange(event) {
         update(event.target.value)
     }
@@ -22,12 +31,19 @@ function Input({label, value, update, type = 'text', disabled = false}) {
         )
     }
 
+
+
     return (
         <TextField
             id="standard-basic"
             disabled={disabled}
             onChange={inputChange}
             type={type}
+            multiline={multiline}
+            rows={2}
+            required={required}
+            error={!!error}
+            helperText={error}
             value={value}
             label={label} 
         />

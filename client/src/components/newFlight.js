@@ -10,13 +10,49 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
 import moment from 'moment'
+// import { debounce } from "throttle-debounce"
 import { makeStyles } from '@material-ui/core/styles';
+
+
+const cachedValues = function(key) {
+  try {
+    const values = JSON.parse(localStorage.getItem(key))
+    if (!Array.isArray(values)) {
+      return []
+    }
+    return values
+  } catch (err) {
+    return []
+  }
+}
+const cacheValue = function(key, value) {
+  if (!value) {
+    return
+  }
+  const values = cachedValues(key)
+  if (!values.includes(value)) {
+    values.push(value)
+    localStorage.setItem(key, JSON.stringify(values))
+  }
+}
+
+const newFlightData = function() {
+  const [aircraft, setAircraft] = useState()
+
+  return {
+    signature: '',
+    saving: false,
+    aircraft
+  }
+}
 
 function NewFlight({ actions }) {
 
-  const [signature, setSignature] = useState('');
-  const [saving, setSaving] = useState(false);
-  const [aircraft, setAircraft] = useState('')
+  const [signature, setSignature] = useState('')
+  const [firstRender, setFirstRender] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [aircraft, setAircraft] = useState()
+  const airports = cachedValues('airports')
   const [date, setDate] = useState(new Date())
   const [departingAirport, setDepartingAirport] = useState('')
   const [arrivalAirport, setArrivalAirport] = useState('')
@@ -27,8 +63,41 @@ function NewFlight({ actions }) {
   const [nightLandings, setNightLandings] = useState(0)
   const [remarks, setRemarks] = useState('')
   const [instructor, setInstructor] = useState('')
+  const [error, setError] = useState({})
+
+  const resetFlight = function() {
+    setFirstRender(false)
+
+    const aircrafts = cachedValues('aircraft')
+    const instructors = cachedValues('instructor')
+    const airports = cachedValues('airports')
+    const mostRecentAirport = airports.length ? airports[airports.length - 1] : ''
+
+    setSignature('')
+    setAircraft(aircrafts.length ? aircrafts.pop() : '')
+    setDate(new Date())
+    setDepartingAirport(mostRecentAirport)
+    setArrivalAirport(mostRecentAirport)
+    setDurration(0)
+    setTakeoffs(0)
+    setLandings(0)
+    setNightLandings(0)
+    setNightTakeoffs(0)
+    setRemarks('')
+    setInstructor(instructors.length ? instructors.pop() : '')
+  }
+
+  if (firstRender) {
+    resetFlight()  
+  }
 
   const submit = function () {
+    if (!durration) {
+      setError({
+        durration: 'Required'
+      })
+      return
+    } 
     actions.saveFlight({
       signature,
       aircraft,
@@ -47,18 +116,12 @@ function NewFlight({ actions }) {
     setTimeout(() => {
       setSaving(false)
     }, 200)
-    setSignature('')
-    setAircraft('')
-    setDate(new Date())
-    setDepartingAirport('')
-    setArrivalAirport('')
-    setDurration(0)
-    setTakeoffs(0)
-    setLandings(0)
-    setNightLandings(0)
-    setNightTakeoffs(0)
-    setRemarks('')
-    setInstructor('')
+
+    cacheValue('aircraft', aircraft)
+    cacheValue('airports', departingAirport)
+    cacheValue('instructor', instructor)
+    resetFlight()
+
     canvas.current.clear()
   }
 
@@ -81,11 +144,15 @@ function NewFlight({ actions }) {
           <Input
             label='Departing Airport'
             value={departingAirport}
-            update={setDepartingAirport} />
+            update={value => {
+              setDepartingAirport(value.toUpperCase())
+            }} />
           <Input
             label='Arriving Airport'
             value={arrivalAirport}
-            update={setArrivalAirport} />
+            update={value => {
+              setArrivalAirport(value.toUpperCase())
+            }} />
           <NumberRange
             label='Takeoffs'
             value={takeoffs}
@@ -114,11 +181,6 @@ function NewFlight({ actions }) {
           type='number'
           update={setNightLandings} /> 
         <Input
-          label='Remarks'
-          type='textarea'
-          value={remarks}
-          update={setRemarks} />
-        <Input
           label='Instructor Name'
           value={instructor}
           update={setInstructor} />
@@ -126,7 +188,16 @@ function NewFlight({ actions }) {
           label='Durration'
           value={durration}
           type='number'
+          required={true}
+          error={error.durration}
+          helperText={'Required'}
           update={setDurration} />
+        <Input
+          label='Remarks'
+          type='textarea'
+          multiline={true}
+          value={remarks}
+          update={setRemarks} />
         <div
             className={css`
             width: 100%;
