@@ -76,6 +76,10 @@ const loadFlights = () => (dispatch, getState) => {
 }
 
 const signup = data => (dispatch, getState) => {
+  dispatch({
+    type: 'SET_GLOBAL',
+    loading: true
+  })
   return axios.post(`${getDomain()}/signup`,
     data)
     .then(function (response) {
@@ -86,6 +90,10 @@ const signup = data => (dispatch, getState) => {
         type: 'SET_AUTH'
       })
       dispatch(push('/newFlight'))
+      dispatch({
+        type: 'SET_GLOBAL',
+        loading: false
+      })
       return null
     }).catch(err => {
       return 'User Already Exists'
@@ -97,6 +105,10 @@ const saveAuth = data => {
 }
 
 const login = data => (dispatch, getState) => {
+  dispatch({
+    type: 'SET_GLOBAL',
+    loading: true
+  })
   return axios.post(`${getDomain()}/login`,
     data)
     .then(function (response) {
@@ -106,6 +118,10 @@ const login = data => (dispatch, getState) => {
       dispatch({
         flights: response.data,
         type: types.FLIGHTS_LIST
+      })
+      dispatch({
+        type: 'SET_GLOBAL',
+        loading: false
       })
       return nul
     }).catch((err) => {
