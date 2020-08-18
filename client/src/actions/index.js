@@ -116,14 +116,10 @@ const login = data => (dispatch, getState) => {
       dispatch({...response.data.AuthenticationResult, email: data.email, type: 'SET_AUTH'})
       dispatch(push('/newFlight'))
       dispatch({
-        flights: response.data,
-        type: types.FLIGHTS_LIST
-      })
-      dispatch({
         type: 'SET_GLOBAL',
         loading: false
       })
-      return nul
+      return null
     }).catch((err) => {
       return `We don't recognize those credentials`
     })

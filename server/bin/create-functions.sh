@@ -64,6 +64,27 @@ aws lambda  create-function  \
     --profile default \
     --region us-east-1
 
+aws lambda  create-function  \
+    --function-name update-flight \
+    --zip-file fileb://upload.zip \
+    --runtime nodejs12.x \
+    --timeout 8 \
+    --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
+    --handler handlers.updateFlight \
+    --profile default \
+    --region us-east-1
+
+
+aws lambda  create-function  \
+    --function-name flight-billing \
+    --zip-file fileb://upload.zip \
+    --runtime nodejs12.x \
+    --timeout 8 \
+    --role arn:aws:iam::100844542342:role/lambdaflightrole2 \
+    --handler handlers.billing \
+    --profile default \
+    --region us-east-1
+
 
 
 
