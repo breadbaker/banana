@@ -7,7 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import Loader from 'components/loader'
+import { css } from 'emotion'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
@@ -53,6 +54,7 @@ function App({ children, actions, state }) {
 
   return (
     <div className={classes.root}>
+      <Loader />
       <AppBar position="static">
         <Toolbar>
           <IconButton onClick={handleClick} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">

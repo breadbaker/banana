@@ -30,10 +30,15 @@ const history = syncHistoryWithStore(browserHistory, store)
 const auth = JSON.parse(localStorage.getItem('auth'))
 if (auth) {
   console.log(jwt.decode(auth.AccessToken))
+
   store.dispatch({
     ...auth,
     type: 'SET_AUTH'
   })
+  const {
+    'custom:stripe_id': stripeId
+  } = jwt.decode(auth.IdToken)
+  store.dispatch(Actions.verifyStripe(stripeId))
 } else {
   store.dispatch(push('/welcome/login'))
 }

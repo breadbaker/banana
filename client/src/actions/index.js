@@ -1,9 +1,7 @@
 import * as types from 'constants'
-import { createActions } from 'redux-actions'
 import axios from 'axios'
-import { push } from 'react-router-redux'
+import { push, replace } from 'react-router-redux'
 import http from 'util/http'
-import { type } from 'os'
 const saveFlight = flight => (dispatch, getState) => {
   http({
     dispatch,
@@ -16,6 +14,29 @@ const saveFlight = flight => (dispatch, getState) => {
       flight,
       type: types.FLIGHTS_ADD
     })
+  })
+}
+
+const verifyStripe = stripe_id => (dispatch, getState) => {
+  http({
+    dispatch,
+    getState,
+    url: '/billing',
+    method: 'post',
+    data: {
+      stripe_id
+    }
+  }).then((response) => {
+    try {
+      if (response.data.action === 'redirect') {
+        var stripe = Stripe(response.data.stripe_pk);
+        stripe.redirectToCheckout({
+          sessionId: response.data.session_id
+        })
+      }
+    } catch (err) {
+      dispatch(replace('/welcome/login'))
+    }
   })
 }
 
@@ -33,26 +54,10 @@ const updateFlight = flight => (dispatch, getState) => {
   }).then(() => {
   })
 }
-const exportRecords = () => (dispatch, getState) => {
-  http({
-    dispatch,
-    getState,
-    url: '/export-records',
-    method: 'post'
-  }).then(response => {
-    // dispatch({
-    //   flights: response.data,
-    //   type: types.FLIGHTS_LIST
-    // })
-  })
-}
-
 
 const getDomain = () => {
   return window.location.host.includes('localhost') ? 'http://localhost:3000' : 'https://api.flightlogbox.com'
 }
-// const pushtto = routeActions.push
-
 
 const loadFlights = () => (dispatch, getState) => {
   http({
@@ -61,40 +66,29 @@ const loadFlights = () => (dispatch, getState) => {
     url: '/flights',
     method: 'post'
   }).then(response => {
-    dispatch({
-      flights: response.data,
-      type: types.FLIGHTS_LIST
-    })
+    if (response) {
+      dispatch({
+        flights: response.data,
+        type: types.FLIGHTS_LIST
+      })
+    }
   })
-
-
-
-
-
-  // // dispatch(push('/app'))
-  // axios.post(`${getDomain()}/flights`,
-  //   {
-  //     key: 'getState().auth.email'
-  //   })
-  //   .then(function (response) {
-
-  //   })
 }
 
 const signup = data => (dispatch, getState) => {
-  axios.post(`${getDomain()}/signup`,
+  return axios.post(`${getDomain()}/signup`,
     data)
     .then(function (response) {
       saveAuth({...response.data.AuthenticationResult, email: data.email})
       dispatch({
         ...data,
+        email: data.email,
         type: 'SET_AUTH'
       })
-      routeActions.push('/app/newFlight')
-      dispatch({
-        flights: response.data,
-        type: types.FLIGHTS_LIST
-      })
+      dispatch(push('/newFlight'))
+      return null
+    }).catch(err => {
+      return 'User Already Exists'
     })
 }
 
@@ -103,7 +97,7 @@ const saveAuth = data => {
 }
 
 const login = data => (dispatch, getState) => {
-  axios.post(`${getDomain()}/login`,
+  return axios.post(`${getDomain()}/login`,
     data)
     .then(function (response) {
       saveAuth({...response.data.AuthenticationResult, email: data.email})
@@ -113,6 +107,9 @@ const login = data => (dispatch, getState) => {
         flights: response.data,
         type: types.FLIGHTS_LIST
       })
+      return nul
+    }).catch((err) => {
+      return `We don't recognize those credentials`
     })
 }
 
@@ -122,16 +119,16 @@ const logout = () => (dispatch) => {
 }
 
 const nav = url => (dispatch) => {
-  dispatch(push(url))
+  dispatch(replace(url))
 }
 
 export default {
   saveFlight,
   loadFlights,
-  exportRecords,
   updateFlight,
   signup,
   login,
   nav,
-  logout
+  logout,
+  verifyStripe
 }

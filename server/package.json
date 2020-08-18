@@ -29,6 +29,7 @@
     "jwk-to-pem": "^2.0.4",
     "link-module-alias": "^1.2.0",
     "node-fetch": "^2.6.0",
+    "stripe": "^8.87.0",
     "try-require": "^1.2.1",
     "uuid": "^8.3.0"
   },

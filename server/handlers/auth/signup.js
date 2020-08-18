@@ -8,13 +8,37 @@ const login = require('./login')
 const genericParams = {
   UserPoolId: process.env.COGNITO_POOL_ID,
 }
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
-const createUser = function({
+const createStripeUser = async function({
+  email,
+  firstName,
+  lastName,
+}) {
+
+  console.log('email')
+  console.log(email)
+
+  const customer = await stripe.customers.create({
+    email,
+    name: `${firstName} ${lastName}`,
+  })
+
+  return customer
+}
+
+const createUser = async function({
   email,
   firstName,
   lastName,
   tempPassword
 }) {
+
+  const stripeUser = await createStripeUser({
+    email,
+    firstName,
+    lastName,
+  })
   const params = {
     ...genericParams,
     Username: email,
@@ -35,6 +59,10 @@ const createUser = function({
       {
         Name: 'email_verified',
         Value: 'true'
+      },
+      {
+        Name: 'custom:stripe_id',
+        Value: stripeUser.id
       }
     ],
     DesiredDeliveryMediums: [

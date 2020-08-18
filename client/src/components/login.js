@@ -5,23 +5,28 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Actions from 'actions'
 import Submit from 'components/submit'
-
-function Login({ actions }) {
+import Alert from 'components/alert'
+function Login({ actions, state }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
-  const submit = function (e) {
-    actions.login({
+  const submit = async function (e) {
+    const result = await actions.login({
       email,
       password
     })
+
+    if (result) {
+      setError(result)
+    }
   }
 
   return (
     <Form onSubmit={submit}>
       <Input
-        label='email'
+        label='Email'
         value={email}
         type='email'
         update={setEmail} />
@@ -31,6 +36,10 @@ function Login({ actions }) {
         type="password"
         update={setPassword} />
       <Submit label="Log In" />
+      {
+        error &&
+        <Alert type="warning" message={error} />
+      }
     </Form>
   );
 }
@@ -40,8 +49,13 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(Actions, dispatch)
   }
 }
+function mapStateToProps(state) {
+  return {
+    state: state
+  }
+}
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login)

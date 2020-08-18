@@ -14,17 +14,23 @@ export default async function({
   data,
   method
 }) {
+  dispatch({
+    type: 'SET_GLOBAL',
+    loading: true
+  })
   let auth = getState().auth
 
   if (!auth.AccessToken) {
+    dispatch({
+      type: 'SET_GLOBAL',
+      loading: false
+    })
     dispatch(push('/welcome/login'))
   } else {
 
     const {
       exp
     } = jwt.decode(auth.AccessToken)
-
-    console.log(moment(new Date(exp * 1000)).diff(moment(new Date()), 'seconds'))
 
     const diff = moment(new Date(exp * 1000)).diff(moment(new Date()), 'seconds')
 
@@ -40,7 +46,12 @@ export default async function({
           type: 'SET_AUTH'
         })
       } catch (err) {
+        dispatch({
+          type: 'SET_GLOBAL',
+          loading: false
+        })
         dispatch(push('/welcome/login'))
+        return
       }
 
     }
@@ -59,12 +70,12 @@ export default async function({
         email
       }
     }
-    console.log('url payload')
-    console.log(url)
-    console.log(payload)
 
     const response = await axios[method](`${getDomain()}${url}`, payload)
-
+    dispatch({
+      type: 'SET_GLOBAL',
+      loading: false
+    })
     return response
   }
   

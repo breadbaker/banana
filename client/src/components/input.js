@@ -18,7 +18,6 @@ function Input({
     if (type === 'date') {
         return (
             <TextField
-                id="standard-basic"
                 disabled={disabled}
                 onChange={inputChange}
                 defaultValue={value}
@@ -31,11 +30,8 @@ function Input({
         )
     }
 
-
-
     return (
         <TextField
-            id="standard-basic"
             disabled={disabled}
             onChange={inputChange}
             type={type}

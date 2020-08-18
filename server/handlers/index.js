@@ -8,7 +8,7 @@ const forgot = require('./auth/forgot')
 const reset = require('./auth/reset')
 const renew = require('./auth/renew')
 const validate = require('./auth/validate')
-
+const billing = require('./pay/billing')
 const withAuth = {
     retrieveFlights,
     storeFlight,
@@ -27,6 +27,7 @@ const authMethods = Object.keys(withAuth).reduce((memo, key) => {
 
 module.exports = {
     ...authMethods,
+    billing,
     signup,
     login,
     forgot,

@@ -4,7 +4,7 @@ import { routerReducer } from 'react-router-redux'
 import flights from './flights'
 
 const authInitialState = {
-  auth: {},
+  auth: null,
 }
 function auth(state = authInitialState, action) {
   switch (action.type) {
@@ -17,10 +17,25 @@ function auth(state = authInitialState, action) {
   }
 }
 
+const globalInitialState = {
+  loading: true
+}
+function global(state = globalInitialState, action) {
+  switch (action.type) {
+    case 'SET_GLOBAL':
+      return {
+        ...action
+      }
+    default:
+      return state
+  }
+}
+
 
 const rootReducer = combineReducers({
   flights,
   auth,
+  global,
   routing: routerReducer
 })
 

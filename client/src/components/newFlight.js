@@ -85,6 +85,7 @@ function NewFlight({ actions }) {
     setNightTakeoffs(0)
     setRemarks('')
     setInstructor(instructors.length ? instructors.pop() : '')
+    setError({})
   }
 
   if (firstRender) {
