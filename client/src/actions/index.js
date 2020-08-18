@@ -28,7 +28,7 @@ const verifyStripe = stripe_id => (dispatch, getState) => {
     }
   }).then((response) => {
     try {
-      if (response.data.action === 'redirect') {
+      if (response.data && response.data.action === 'redirect') {
         var stripe = Stripe(response.data.stripe_pk);
         stripe.redirectToCheckout({
           sessionId: response.data.session_id
