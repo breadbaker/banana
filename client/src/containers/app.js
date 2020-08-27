@@ -45,7 +45,7 @@ function App({ children, actions, state }) {
     const path = state.routing.locationBeforeTransitions.pathname
 
     return {
-      '/': 'New Flight',
+      '/': 'New Endorsement',
       'newFlight': 'New Flight',
       'export': 'Log Export',
       'flights': 'Past Flights',

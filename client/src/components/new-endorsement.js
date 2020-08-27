@@ -19,19 +19,26 @@ import endorsements from './endorsements'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+function Segment({children}) {
+  return (
+    <span
+     className={css(`
+      line-height: 65px;
+      `)}>
+      {children}
+    </span>
+  )
 }
 function NewEndorsement({ actions }) {
 
   const [category, setCategory] = useState()
-  const first = {
-    section: 'A.1',
-    title: 'Prerequisites for practical test: Title 14 of the Code of Federal Regulations(14 CFR) part 61, § 61.39(a)(6)(i) and (ii).',
-    text: 'I certify that [First name, MI, Last name] has received and logged training time within 2 calendar-months preceding the month of application in preparation for the practical test and [he or she] is prepared for the required practical test for the issuance of [applicable] certificate.'
-  }
   const [endorsement, setEndoresment] = useState()
   const [aircraft, setAircraft] = useState('')
   const [licenseType, setLicenseType] = useState('')
+  const [pilotName, setPilotName] = useState('')
   const [aircraftMake, setAircraftMake] = useState('')
   const [signature, setSignature] = useState('')
   const [date, setDate] = useState(new Date())
@@ -52,25 +59,36 @@ function NewEndorsement({ actions }) {
   const [error, setError] = useState({})
 
   const submit = function () {
-    if (!durration) {
-      setError({
-        durration: 'Required'
-      })
-      return
-    }
-    actions.saveFlight({
+    setError(endorsement.fields.reduce((memo,field) =>{
+      if (!eval(field)) {
+        memo[field] = 'required'
+      }
+
+      return memo
+    }, {}))
+
+    actions.saveEndorsement({
+      endorsement: endorsement.text({
+        pilotName,
+        licenseType,
+        aircraft,
+        aircraftMake,
+        departingAirport,
+        arrivalAirport,
+        airports,
+        airport,
+        comments,
+        route,
+        aircraftCategory,
+        documentType,
+        documentNumber,
+        airspace
+      }),
       signature,
-      aircraft,
-      date,
-      departingAirport,
-      arrivalAirport,
-      durration,
-      takeoffs,
-      landings,
-      nightTakeoffs,
-      nightLandings,
       instructor,
-      remarks
+      instructorCFI,
+      date,
+      pilotName
     })
     setSaving(true)
     setTimeout(() => {
@@ -99,8 +117,34 @@ function NewEndorsement({ actions }) {
     canvas.current.clear()
   }
 
-  // const licenseType ='private pilot'
-  const pilotName = 'dbaaoeuaoe'
+
+
+  const chunks = []
+
+  if (endorsement) {
+  const variables = endorsement.text.match(/{{[a-z|A-Z]+}}/g)
+
+    const remainder = variables.reduce((remainingText, inputItem, idx) => {
+      const broken = remainingText.split(inputItem)
+      const left = broken[0]
+      const right = broken[1]
+      chunks.push(<Segment key={idx}>{left}</Segment>)
+      const field = inputItem.replace(/[{}]/g, "")
+      chunks.push(<Input
+        label={field}
+        key={field}
+        value={eval(field)}
+        error={error[field]}
+        update={eval(`set${capitalizeFirstLetter(field)}`)} />)
+      // chunks.push(<Segment>{`react:${inputItem}`}</Segment>)
+      return right
+    }, endorsement.text)
+  
+    chunks.push(<Segment key="remainder">{remainder}</Segment>)
+  }
+
+
+  // const pilotName = 'aoeu'
 
 
   return (
@@ -163,18 +207,13 @@ function NewEndorsement({ actions }) {
               disabled
               value={moment(date).format('YYYY-MM-DD')}
               type='date'
+              error={error.date}
               update={setDate} />
           </div>
-          { endorsement.fields.map(field => {
-            return <Input
-              label={field}
-              value={eval(field)}
-              update={eval(`set${capitalizeFirstLetter(field)}`)} />
-            })
-          }
           <Input
             label='Instructor Name'
             value={instructor}
+            err
             update={setInstructor} />
           <Input
             label='Instructor CFI'
@@ -184,26 +223,12 @@ function NewEndorsement({ actions }) {
               className={css`
               width: 100%;
             `}>
+            { chunks.map(item => {
+              return item
+            })}
             <Signature
               signature={signature}
               setSignature={setSignature} />
-            <p>{endorsement.text({
-              pilotName,
-              licenseType,
-              aircraft,
-              aircraftMake,
-              departingAirport,
-              arrivalAirport,
-              airports,
-              airport,
-              comments,
-              route,
-              aircraftCategory,
-              documentType,
-              documentNumber,
-              airspace
-            })}</p>
-            {/* <p>{getEndorsementText(endorsement)}</p> */}
             <Submit label="Save Endorsement" />
           </div>
         </Form>
