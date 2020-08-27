@@ -48,7 +48,8 @@ function App({ children, actions, state }) {
       '/': 'New Flight',
       'newFlight': 'New Flight',
       'export': 'Log Export',
-      'flights': 'Past Flights'
+      'flights': 'Past Flights',
+      'newEndorsement': 'New Endorsement'
     }[path]
   }
 
@@ -67,6 +68,7 @@ function App({ children, actions, state }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
+              <MenuItem onClick={handleClose('newEndorsement')}>New Endorsement</MenuItem>
               <MenuItem onClick={handleClose('newFlight')}>New Flight</MenuItem>
               <MenuItem id="past-flights" onClick={() => {
                 handleClose('flights')()

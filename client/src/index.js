@@ -10,6 +10,8 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore, push } from 'react-router-redux'
 import NewFlight from 'components/newFlight'
 import Flights from 'components/flights'
+import Endorsements from 'components/endorsements'
+import NewEndorsement from 'components/new-endorsement'
 import Export from 'components/export'
 import Signup from 'components/signup'
 import Login from 'components/login'
@@ -60,7 +62,9 @@ render(
             <Route path="/forgot" component={Forgot}/>
           </Route>
           <Route path="/" component={App}>
-            <IndexRoute component={NewFlight} />
+            <IndexRoute component={NewEndorsement} />
+            <Route path="newEndorsement" component={NewEndorsement} />
+            {/* <Route path="endorsements" component={Endorsements} /> */}
             <Route path="export" component={Export} />
             <Route path="flights" component={Flights}/>
             <Route path="newFlight" component={NewFlight} />
