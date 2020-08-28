@@ -32,6 +32,10 @@ function Segment({children}) {
     </span>
   )
 }
+
+const getFields = endorsement => {
+
+}
 function NewEndorsement({ actions }) {
 
   const [category, setCategory] = useState()
@@ -59,60 +63,47 @@ function NewEndorsement({ actions }) {
   const [error, setError] = useState({})
 
   const submit = function () {
-    setError(endorsement.fields.reduce((memo,field) =>{
+    setError({})
+
+    const variables = endorsement.text.match(/{{[a-z|A-Z]+}}/g).map(varItem => {
+      return varItem.replace(/[{}]/g, "")
+    })
+    
+    const err = variables.reduce((memo,field) =>{
       if (!eval(field)) {
         memo[field] = 'required'
       }
 
       return memo
-    }, {}))
+    }, {})
 
-    actions.saveEndorsement({
-      endorsement: endorsement.text({
-        pilotName,
-        licenseType,
-        aircraft,
-        aircraftMake,
-        departingAirport,
-        arrivalAirport,
-        airports,
-        airport,
-        comments,
-        route,
-        aircraftCategory,
-        documentType,
-        documentNumber,
-        airspace
-      }),
-      signature,
-      instructor,
-      instructorCFI,
-      date,
-      pilotName
+    if (Object.keys(err).length) {
+      setError(err)
+      return
+    }
+
+    const saveObj = variables.reduce((memo, field) => {
+      memo[field] = eval(field)
+      return memo
+    }, {
+      pilotName: 'Dan'
+    })
+
+    actions.saveEndorsement(
+      saveObj
+    )
+
+    variables.forEach(field => {
+      eval(`set${capitalizeFirstLetter(field)}`)('')
     })
     setSaving(true)
     setTimeout(() => {
       setSaving(false)
     }, 200)
 
-    setEndoresment()
-    setAircraft('')
-    setLicenseType('')
-    setAircraftMake('')
+
     setSignature('')
     setDate(new Date())
-    setInstructor('')
-    setInstructorCFI('')
-    setDepartingAirport('')
-    setArrivalAirport('')
-    setAirports('')
-    setComments('')
-    setRoute('')
-    setAircraftCategory('')
-    setDocumentType('')
-    setDocumentNumber('')
-    setAirspace('')
-    setAirport('')
 
     canvas.current.clear()
   }
