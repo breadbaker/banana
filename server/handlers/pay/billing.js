@@ -31,5 +31,7 @@ module.exports = async event => {
       session_id: session.id,
       stripe_pk: env.stripePk()
     }
+  } else {
+    return { action: 'none' }
   }
 }

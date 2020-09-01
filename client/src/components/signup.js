@@ -2,34 +2,43 @@ import React, { useState } from 'react'
 import Submit from 'components/submit'
 import Input from 'components/input'
 import Form from 'components/form'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import Alert from 'components/alert'
-import Actions from 'actions'
-function Signup({ actions, state }) {
+import Loader from 'components/loader'
+import axios from 'axios'
+import { saveAuth } from 'util/auth'
+import getDomain from 'util/domain'
+import { browserHistory } from 'react-router'
+function Signup() {
 
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const submit = async function (e) {
-    const result = await actions.signup({
-      email,
-      firstName,
-      lastName,
-      password
-    })
-
-    if (result) {
-      setError(result)  
+  const signup = async function (e) {
+    setLoading(true)
+    try {
+      const response = await axios.post(`${getDomain()}/signup`,
+        {
+          email,
+          firstName,
+          lastName,
+          password
+        }
+      )
+      saveAuth({...response.data.AuthenticationResult, email})
+      browserHistory.push('/newFlight')
+    } catch (err) {
+      setError('User Already Exists')
+      setLoading(false)
     }
   }
 
-
   return (
-    <Form onSubmit={submit}>
+    <Form onSubmit={signup}>
+      { loading && <Loader /> }
       <Input
         label='First Name'
         value={firstName}
@@ -55,20 +64,5 @@ function Signup({ actions, state }) {
     </Form>
   );
 }
-  
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
 
-function mapStateToProps(state) {
-  return {
-    state: state
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Signup)
+export default Signup

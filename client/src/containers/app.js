@@ -7,11 +7,17 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Loader from 'components/loader'
 import { css } from 'emotion'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Actions from 'actions'
+import { browserHistory } from 'react-router'
+
+import Loader from 'components/loader'
+import { getAuth, saveAuth } from 'util/auth'
+import jwt from 'jsonwebtoken'
+
+
+import fetcherize from 'util/fetcher'
+
+import useSWR from 'swr'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,10 +31,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function App({ children, actions, state }) {
+function App({ children }) {
   const classes = useStyles();
-
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const auth = getAuth()
+  if (!auth) {
+    browserHistory.push('/welcome/login')
+    return <p></p>
+  }
+  const {
+    'custom:stripe_id': stripeId
+  } = jwt.decode(auth.IdToken)
+  const fetcher = fetcherize({
+    data: {
+      stripe_id: stripeId
+    }
+  })
+
+  const { data: billingData, error } = useSWR(`/billing`, fetcher, {initialData: {action: 'loading'}})
+  if (billingData.action === 'redirect') {
+    var stripe = Stripe(billingData.stripe_pk);
+    stripe.redirectToCheckout({
+      sessionId: billingData.session_id
+    })
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,26 +63,26 @@ function App({ children, actions, state }) {
 
   const handleClose = (url) => {
     return () => {
-      actions.nav(url)
+      browserHistory.push(url)
       setAnchorEl(null)
     }
   };
 
   const getLabel = () => {
-    const path = state.routing.locationBeforeTransitions.pathname
+    const path = window.location.pathname
 
     return {
       '/': 'New Endorsement',
       'newFlight': 'New Flight',
       'export': 'Log Export',
       'flights': 'Past Flights',
-      'newEndorsement': 'New Endorsement'
+      'newEndorsement': 'New Endorsement',
+      'endorsements': 'Endorsements'
     }[path]
   }
 
   return (
     <div className={classes.root}>
-      <Loader />
       <AppBar position="static">
         <Toolbar>
           <IconButton onClick={handleClick} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -70,11 +97,14 @@ function App({ children, actions, state }) {
             >
               <MenuItem onClick={handleClose('newEndorsement')}>New Endorsement</MenuItem>
               <MenuItem onClick={handleClose('newFlight')}>New Flight</MenuItem>
+              <MenuItem onClick={handleClose('endorsements')}>Endorsements</MenuItem>
               <MenuItem id="past-flights" onClick={() => {
                 handleClose('flights')()
-                actions.loadFlights()
               }}>Past Flights</MenuItem>
-              <MenuItem onClick={actions.logout}>Logout</MenuItem>
+              <MenuItem onClick={()=> {
+                saveAuth(null)
+                browserHistory.push('/welcome/login')
+              }}>Logout</MenuItem>
             </Menu>
             <Typography variant="h6" className={classes.title}>
               {getLabel()}
@@ -87,22 +117,4 @@ function App({ children, actions, state }) {
   );
 }
 
-{/* <MenuItem onClick={handleClose('export')}>Log Export</MenuItem> */}
-
-
-function mapStateToProps(state) {
-  return {
-    state: state
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App

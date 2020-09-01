@@ -1,7 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
 import { css } from 'emotion'
-import { connect } from 'react-redux'
 import randomColor from 'randomcolor'
 
 function shuffle(a) {
@@ -34,12 +33,7 @@ function Load({type}) {
     </div>
   )
 }
-function LoaderScreen({ state }) {
-  if (!state.global.loading) {
-    return (
-      <div></div>
-    )
-  }
+function LoaderScreen() {
   return (
     <div
     className={css(`
@@ -48,6 +42,7 @@ function LoaderScreen({ state }) {
       height: 100%;
       background: #80808094;
       left: 0;
+      top: 0;
       text-align: center;
       z-index: 100000000;
       padding-top: 80px;
@@ -81,13 +76,4 @@ function LoaderScreen({ state }) {
     </div>
   )
 }
-
-function mapStateToProps(state) {
-  return {
-    state: state
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(LoaderScreen)
+export default LoaderScreen

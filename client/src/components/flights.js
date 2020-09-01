@@ -1,15 +1,32 @@
-import { css, cx } from 'emotion'
-import React, { Component, PropTypes } from 'react'
-import Display from 'components/display'
-import Input from 'components/input'
+import { css } from 'emotion'
+import React, { Component, PropTypes, useRouter } from 'react'
 import FlightCard from 'components/flight-card'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Actions from 'actions'
-const color = 'white'
+import Loader from 'components/loader'
 
 
-function Flights({ flights, actions }) {
+import fetcherize from 'util/fetcher'
+
+import useSWR from 'swr'
+
+function Flights() {
+  const fetcher = fetcherize({
+    data: {
+      recordType: 'flight',
+      action: 'retrieve'
+    }
+  })
+
+  const { data: flightsData, error } = useSWR(`/records/flights`, fetcher)
+  const flights = flightsData && flightsData.sort((a,b) => {
+    return new Date(b.date) - new Date(a.date)
+  }).filter(flight => {
+    return flight.deletedAt === undefined
+  })
+  const totalHours = flights && flights.reduce((total, flight) => {
+    return total + Number(flight.durration)
+  }, 0)
+  if (error) return <div>failed to load{JSON.stringify(error)}</div>
+  if (!flights) return <Loader />
   return (
     <div
       className={css(`
@@ -17,14 +34,13 @@ function Flights({ flights, actions }) {
         // background: white;
       `)}>
       <h1>
-        Total Flight Hours: {flights.totalFlightTime}
+        Total Flight Hours: {totalHours}
       </h1>
-      { flights.flights.map((flight, idx) => {
+      { flights.map((flight, idx) => {
         return (
           <FlightCard
             key={flight.id || idx}
             flight={flight} 
-            updateFlight={actions.updateFlight}
           />
           )
       })}
@@ -32,21 +48,4 @@ function Flights({ flights, actions }) {
   )
 }
 
-
-function mapStateToProps(state) {
-  return {
-    flights: state.flights
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Flights)
+export default Flights

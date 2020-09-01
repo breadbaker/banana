@@ -1,61 +1,61 @@
 import React, { useState } from 'react'
 import Input from 'components/input'
 import Form from 'components/form'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Actions from 'actions'
 import Submit from 'components/submit'
 import Alert from 'components/alert'
-function Login({ actions, state }) {
+import Loader from 'components/loader'
+import axios from 'axios'
+import { saveAuth } from 'util/auth'
+import getDomain from 'util/domain'
+import { browserHistory } from 'react-router'
+
+function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const submit = async function (e) {
-    const result = await actions.login({
-      email,
-      password
-    })
+  const login = async function (e) {
+    setLoading(true)
+    try {
+      const response = await axios.post(`${getDomain()}/login`,
+        {
+          email,
+          password
+        }
+      )
 
-    if (result) {
-      setError(result)
+      saveAuth({...response.data.AuthenticationResult, email })
+      browserHistory.push('/newFlight')
+    } catch (err) {
+      setError(`We don't recognize those credentials`)
+      setLoading(false)
     }
   }
 
   return (
-    <Form onSubmit={submit}>
-      <Input
-        label='Email'
-        value={email}
-        type='email'
-        update={setEmail} />
-      <Input
-        label='Password'
-        value={password}
-        type="password"
-        update={setPassword} />
-      <Submit label="Log In" />
-      {
-        error &&
-        <Alert type="warning" message={error} />
-      }
-    </Form>
+    <div>
+      { loading && <Loader /> }
+      <Form onSubmit={login}>
+        <Input
+          label='Email'
+          value={email}
+          type='email'
+          update={setEmail} />
+        <Input
+          label='Password'
+          value={password}
+          type="password"
+          update={setPassword} />
+        <Submit label="Log In" />
+        {
+          error &&
+          <Alert type="warning" message={error} />
+        }
+      </Form>
+    </div>
   );
 }
-  
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-function mapStateToProps(state) {
-  return {
-    state: state
-  }
-}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)
+export default Login

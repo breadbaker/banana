@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import Input from 'components/input'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Actions from 'actions'
-function Reset({ actions }) {
+function Reset() {
 
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -33,14 +30,5 @@ function Reset({ actions }) {
     </form>
   );
 }
-  
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Reset)
+export default Reset

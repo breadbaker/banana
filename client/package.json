@@ -24,14 +24,10 @@
     "react-canvas-draw": "^1.1.1",
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",
-    "react-redux": "^7.2.0",
     "react-router": "^3.2.0",
-    "react-router-redux": "^4.0.8",
-    "redux": "^4.0.5",
-    "redux-actions": "^2.6.5",
-    "redux-thunk": "^2.3.0",
+    "react-router-dom": "^5.2.0",
     "stripe": "^8.87.0",
-    "webpack-visualizer-plugin": "^0.1.11"
+    "swr": "^0.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -54,6 +50,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-dev-server": "^3.11.0",
+    "webpack-visualizer-plugin": "^0.1.11",
     "webpack-hot-middleware": "^2.2.0"
   },
   "engines": {

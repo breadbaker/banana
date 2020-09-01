@@ -1,7 +1,4 @@
-const storeFlight = require('./store-flight')
-const retrieveFlights = require('./retrieve-flights')
-const updateFlight = require('./update-flight')
-const exportRecords = require('./export')
+const manageRecord = require('./manage-record')
 const signup = require('./auth/signup')
 const login = require('./auth/login')
 const forgot = require('./auth/forgot')
@@ -10,10 +7,7 @@ const renew = require('./auth/renew')
 const validate = require('./auth/validate')
 const billing = require('./pay/billing')
 const withAuth = {
-    retrieveFlights,
-    storeFlight,
-    exportRecords,
-    updateFlight
+    manageRecord
 }
 
 const authMethods = Object.keys(withAuth).reduce((memo, key) => {

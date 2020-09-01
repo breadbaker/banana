@@ -9,9 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Loader from 'components/loader'
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Actions from 'actions'
+import { browserHistory } from 'react-router'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoggedOutApp({ children, actions, state }) {
+function LoggedOutApp({ children }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,14 +34,14 @@ function LoggedOutApp({ children, actions, state }) {
 
   const handleClose = (url) => {
     return () => {
-      actions.nav(`/${url}`)
+      browserHistory.push(`/${url}`)
       setAnchorEl(null)
     }
   };
 
   const getLabel = () => {
-    const path = state.routing.locationBeforeTransitions.pathname
-
+    const path = window.location.pathname
+    
     return {
       'welcome/login': 'Login',
       'welcome/signup': 'Signup',
@@ -53,7 +51,6 @@ function LoggedOutApp({ children, actions, state }) {
 
   return (
     <div className={classes.root}>
-      <Loader />
       <AppBar position="static">
         <Toolbar>
           <IconButton onClick={handleClick} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -81,19 +78,4 @@ function LoggedOutApp({ children, actions, state }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    state: state
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoggedOutApp)
+export default LoggedOutApp

@@ -8,11 +8,10 @@ import Flights from 'components/flights'
 import { css } from 'emotion'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Actions from 'actions'
 import moment from 'moment'
 // import { debounce } from "throttle-debounce"
 import { makeStyles } from '@material-ui/core/styles';
-
+import fetcherize from 'util/fetcher'
 
 const cachedValues = function(key) {
   try {
@@ -46,7 +45,7 @@ const newFlightData = function() {
   }
 }
 
-function NewFlight({ actions }) {
+function NewFlight() {
 
   const [signature, setSignature] = useState('')
   const [firstRender, setFirstRender] = useState(true)
@@ -99,20 +98,25 @@ function NewFlight({ actions }) {
       })
       return
     } 
-    actions.saveFlight({
-      signature,
-      aircraft,
-      date,
-      departingAirport,
-      arrivalAirport,
-      durration,
-      takeoffs,
-      landings,
-      nightTakeoffs,
-      nightLandings,
-      instructor,
-      remarks
-    })
+    const response = fetcherize({
+      data: {
+        signature,
+        aircraft,
+        date,
+        departingAirport,
+        arrivalAirport,
+        durration,
+        takeoffs,
+        landings,
+        nightTakeoffs,
+        nightLandings,
+        instructor,
+        remarks,
+        recordType: 'flight',
+        action: 'store'
+      }
+    })('/records/flights')
+    // actions.saveFlight()
     setSaving(true)
     setTimeout(() => {
       setSaving(false)
@@ -213,20 +217,4 @@ function NewFlight({ actions }) {
   );
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    flights: state.flights
-  }
-}
-
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NewFlight)
+export default NewFlight

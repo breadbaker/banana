@@ -11,47 +11,112 @@ import Signature from 'components/signature'
 import fetcherize from 'util/fetcher'
 import useSWR, { mutate } from 'swr'
 import { css } from 'emotion'
+import Endorsements from './endorsements';
+import endorsementsMap from '../util/endorsements-map';
 
-function Detail({children}) {
+function Segment({children}) {
   return (
     <span
      className={css(`
-      font-size: 18px;
-      font-weight: bold;
-      text-decoration: underline;
+      // line-height: 65px;
       `)}>
       {children}
     </span>
   )
 }
+export default function ({ endorsement }) {
+  const category = endorsementsMap[endorsement.categoryKey]
+  const endorsementItem = category.endorsements[endorsement.endorsementKey]
+  const chunks = []
 
-function MinorDetail({children}) {
-  return (
-    <span
-     className={css(`
-      font-size: 12px;
-      margin-left: 10px;
-      `)}>
-      {children}
-    </span>
-  )
-}
+  const variables = endorsementItem.text.match(/{{[a-z|A-Z]+}}/g)
 
-export default function FlightCard({ flight }) {
-  const [editing, setEditing] = useState(false);
-  const [signature, setSignature] = useState('');
+    const remainder = variables.reduce((remainingText, inputItem, idx) => {
+      const broken = remainingText.split(inputItem)
+      const left = broken[0]
+      const right = broken[1]
+      chunks.push(<Segment key={`${idx}-left`}>{left}</Segment>)
+      const field = inputItem.replace(/[{}]/g, "")
+      chunks.push(<Segment key={idx}>{endorsement[field]}</Segment>)
+      return right
+    }, endorsementItem.text)
+  
+    chunks.push(<Segment key="remainder">{remainder}</Segment>)
 
   return (
     <Card
       className={css(`
-        minWidth: 275;
-        marginBottom: 20;
+        margin-bottom: 20px;
       `)}>
       <CardContent>
         <div onClick={() => {
           setEditing(!editing)
         }}>
           <h1
+            className={css(`
+            font-weight: bold;
+            margin-top: 0px;
+            margin-bottom: 5px;
+            `)}>
+            {moment(endorsement.date).format('l')}
+            <div
+              className={css(`
+              display: inline-block;
+              float: right;
+              font-size: 12px;
+              `)}>
+              {category.label}
+            </div>
+          </h1>
+          <p>
+            {endorsementItem.title}
+          </p>
+          <div
+              className={css`
+              width: 100%;
+            `}>
+            { chunks.map(item => {
+              return item
+            })}
+          </div>
+          <div
+            className={css`
+              display: flex;
+              // margin-bottom: -10px;
+              font-size: 14px;
+              align-items: center;
+              justify-content: center;
+              p {
+                margin: 0px;
+              }`}>
+            <div
+              className={css`
+              display: inline-block;
+              width: 50%;
+              text-align: center;
+            `}>
+              <p>
+                {endorsement.instructor} {endorsement.instructorCFI}
+              </p>
+            </div>
+            <div
+              className={css`
+              display: inline-block;
+              width: 50%;
+              text-align: center;
+            `}>
+              <DisplaySignature
+                signature={endorsement.signature}
+              />
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+{/* 
+<h1
             className={css(`
             font-weight: bold;
             margin-top: 0px;
@@ -182,8 +247,4 @@ export default function FlightCard({ flight }) {
               </div>
             }
           </div>
-        }        
-      </CardContent>
-    </Card>
-  );
-}
+        }         */}
