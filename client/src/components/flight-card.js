@@ -44,8 +44,7 @@ export default function FlightCard({ flight }) {
   return (
     <Card
       className={css(`
-        minWidth: 275;
-        marginBottom: 20;
+        margin-bottom: 19px;
       `)}>
       <CardContent>
         <div onClick={() => {

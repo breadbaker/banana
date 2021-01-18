@@ -17,10 +17,10 @@ function Flights() {
   })
 
   const { data: flightsData, error } = useSWR(`/records/flights`, fetcher)
-  const flights = flightsData && flightsData.sort((a,b) => {
-    return new Date(b.date) - new Date(a.date)
-  }).filter(flight => {
+  const flights = flightsData && flightsData.filter(flight => {
     return flight.deletedAt === undefined
+  }).sort((a,b) => {
+    return new Date(b.date) - new Date(a.date)
   })
   const totalHours = flights && flights.reduce((total, flight) => {
     return total + Number(flight.durration)

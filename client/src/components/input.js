@@ -34,7 +34,7 @@ function Input({
         <TextField
             disabled={disabled}
             onChange={inputChange}
-            type={type}
+            type="text"
             multiline={multiline}
             rows={2}
             required={required}
