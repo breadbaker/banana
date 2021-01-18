@@ -36,7 +36,7 @@ function App({ children }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const auth = getAuth()
-  if (!auth) {
+  if (!auth || !auth.IdToken) {
     browserHistory.push('/welcome/login')
     return <p></p>
   }

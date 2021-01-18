@@ -6,8 +6,6 @@ import Submit from 'components/submit'
 import Form from 'components/form'
 import Flights from 'components/flights'
 import { css } from 'emotion'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import moment from 'moment'
 // import { debounce } from "throttle-debounce"
 import { makeStyles } from '@material-ui/core/styles';
