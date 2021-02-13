@@ -31,11 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function App({ children }) {
+function App({ children, history }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const auth = getAuth()
+
+  console.log(browserHistory)
   if (!auth || !auth.IdToken) {
     browserHistory.push('/welcome/login')
     return <p></p>

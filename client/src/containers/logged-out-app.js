@@ -42,11 +42,13 @@ function LoggedOutApp({ children }) {
   const getLabel = () => {
     const path = window.location.pathname
     
-    return {
+    const foundPath =  {
       'welcome/login': 'Login',
       'welcome/signup': 'Signup',
       'welcome/forgot': 'Forgot Password'
     }[path]
+
+    return foundPath || 'User Records'
   }
 
   return (

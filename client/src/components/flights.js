@@ -3,12 +3,12 @@ import React, { Component, PropTypes, useRouter } from 'react'
 import FlightCard from 'components/flight-card'
 import Loader from 'components/loader'
 
-
 import fetcherize from 'util/fetcher'
 
 import useSWR from 'swr'
 
-function Flights() {
+function Flights({ userId }) {
+
   const fetcher = fetcherize({
     data: {
       recordType: 'flight',
@@ -16,7 +16,9 @@ function Flights() {
     }
   })
 
-  const { data: flightsData, error } = useSWR(`/records/flights`, fetcher)
+  const url = userId ? `/records/flights/${userId}` : `/records/flights`
+
+  const { data: flightsData, error } = useSWR(url, fetcher)
   const flights = flightsData && flightsData.filter(flight => {
     return flight.deletedAt === undefined
   }).sort((a,b) => {

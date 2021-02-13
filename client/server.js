@@ -11,12 +11,18 @@ var compiler = webpack(config)
 // app.use(webpackHotMiddleware(compiler
 
 app.get("/*", function(req, res) {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile(__dirname + '/src/index.html')
 })
 
 app.get("/login", function(req, res) {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile(__dirname + '/src/index.html')
 })
+
+app.get('/newFlight', function(req, res) {
+  res.sendFile(__dirname + '/src/index.html')
+})
+
+console.log('PORTPORTPORT\n\n\n', port)
 
 app.listen(port, function(error) {
   if (error) {
